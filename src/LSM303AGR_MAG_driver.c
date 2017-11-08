@@ -60,7 +60,7 @@ extern uint8_t LSM303AGR_MAG_IO_Read(void *handle, uint8_t ReadAddr, uint8_t *pB
 * Output			: Data REad
 * Return			: None
 *******************************************************************************/
-status_t LSM303AGR_MAG_ReadReg( void *handle, u8_t Reg, u8_t* Data ) 
+mems_status_t LSM303AGR_MAG_ReadReg( void *handle, u8_t Reg, u8_t* Data ) 
 {
   
   if (LSM303AGR_MAG_IO_Read(handle, Reg, Data, 1))
@@ -81,7 +81,7 @@ status_t LSM303AGR_MAG_ReadReg( void *handle, u8_t Reg, u8_t* Data )
 * Output			: None
 * Return			: None
 *******************************************************************************/
-status_t LSM303AGR_MAG_WriteReg( void *handle, u8_t Reg, u8_t Data ) 
+mems_status_t LSM303AGR_MAG_WriteReg( void *handle, u8_t Reg, u8_t Data ) 
 {
     
   if (LSM303AGR_MAG_IO_Write(handle, Reg, &Data, 1))
@@ -133,7 +133,7 @@ void LSM303AGR_MAG_SwapHighLowByte(u8_t *bufferToSwap, u8_t numberOfByte, u8_t d
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_X_L(void *handle, u8_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_X_L(void *handle, u8_t newValue)
 {
   u8_t value;
 
@@ -160,7 +160,7 @@ status_t  LSM303AGR_MAG_W_OFF_X_L(void *handle, u8_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_X_L(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_X_L(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_OFFSET_X_REG_L, (u8_t *)value) )
     return MEMS_ERROR;
@@ -177,7 +177,7 @@ status_t LSM303AGR_MAG_R_OFF_X_L(void *handle, u8_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_X_H(void *handle, u8_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_X_H(void *handle, u8_t newValue)
 {
   u8_t value;
 
@@ -204,7 +204,7 @@ status_t  LSM303AGR_MAG_W_OFF_X_H(void *handle, u8_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_X_H(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_X_H(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_OFFSET_X_REG_H, (u8_t *)value) )
     return MEMS_ERROR;
@@ -221,7 +221,7 @@ status_t LSM303AGR_MAG_R_OFF_X_H(void *handle, u8_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_Y_L(void *handle, u8_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_Y_L(void *handle, u8_t newValue)
 {
   u8_t value;
 
@@ -248,7 +248,7 @@ status_t  LSM303AGR_MAG_W_OFF_Y_L(void *handle, u8_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_Y_L(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_Y_L(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_OFFSET_Y_REG_L, (u8_t *)value) )
     return MEMS_ERROR;
@@ -265,7 +265,7 @@ status_t LSM303AGR_MAG_R_OFF_Y_L(void *handle, u8_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_Y_H(void *handle, u8_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_Y_H(void *handle, u8_t newValue)
 {
   u8_t value;
 
@@ -292,7 +292,7 @@ status_t  LSM303AGR_MAG_W_OFF_Y_H(void *handle, u8_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_Y_H(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_Y_H(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_OFFSET_Y_REG_H, (u8_t *)value) )
     return MEMS_ERROR;
@@ -309,7 +309,7 @@ status_t LSM303AGR_MAG_R_OFF_Y_H(void *handle, u8_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_Z_L(void *handle, u8_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_Z_L(void *handle, u8_t newValue)
 {
   u8_t value;
 
@@ -336,7 +336,7 @@ status_t  LSM303AGR_MAG_W_OFF_Z_L(void *handle, u8_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_Z_L(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_Z_L(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_OFFSET_Z_REG_L, (u8_t *)value) )
     return MEMS_ERROR;
@@ -353,7 +353,7 @@ status_t LSM303AGR_MAG_R_OFF_Z_L(void *handle, u8_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_Z_H(void *handle, u8_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_Z_H(void *handle, u8_t newValue)
 {
   u8_t value;
 
@@ -375,7 +375,7 @@ status_t  LSM303AGR_MAG_W_OFF_Z_H(void *handle, u8_t newValue)
 /*******************************************************************************
  * Set/Get the Magnetic offsets
 *******************************************************************************/
-status_t LSM303AGR_MAG_Get_MagOff(void *handle, u16_t *magx_off, u16_t *magy_off, u16_t *magz_off)
+mems_status_t LSM303AGR_MAG_Get_MagOff(void *handle, u16_t *magx_off, u16_t *magy_off, u16_t *magz_off)
 {
   u8_t reg_l, reg_h;
 
@@ -403,7 +403,7 @@ status_t LSM303AGR_MAG_Get_MagOff(void *handle, u16_t *magx_off, u16_t *magy_off
   return MEMS_SUCCESS;
 }
 
-status_t LSM303AGR_MAG_Set_MagOff(void *handle, u16_t magx_off, u16_t magy_off, u16_t magz_off)
+mems_status_t LSM303AGR_MAG_Set_MagOff(void *handle, u16_t magx_off, u16_t magy_off, u16_t magz_off)
 {
   /* write mag_x_off */
   //LSM303AGR_MAG_W_OFF_X_L(magx_off & 0xff);
@@ -434,7 +434,7 @@ status_t LSM303AGR_MAG_Set_MagOff(void *handle, u16_t magx_off, u16_t magy_off, 
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_Z_H(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_Z_H(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_OFFSET_Z_REG_H, (u8_t *)value) )
     return MEMS_ERROR;
@@ -452,7 +452,7 @@ status_t LSM303AGR_MAG_R_OFF_Z_H(void *handle, u8_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_WHO_AM_I(void *handle, u8_t *value)
+mems_status_t LSM303AGR_MAG_R_WHO_AM_I(void *handle, u8_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_WHO_AM_I_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -469,7 +469,7 @@ status_t LSM303AGR_MAG_R_WHO_AM_I(void *handle, u8_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_MD(void *handle, LSM303AGR_MAG_MD_t newValue)
+mems_status_t  LSM303AGR_MAG_W_MD(void *handle, LSM303AGR_MAG_MD_t newValue)
 {
   u8_t value;
 
@@ -493,7 +493,7 @@ status_t  LSM303AGR_MAG_W_MD(void *handle, LSM303AGR_MAG_MD_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_MD(void *handle, LSM303AGR_MAG_MD_t *value)
+mems_status_t LSM303AGR_MAG_R_MD(void *handle, LSM303AGR_MAG_MD_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_A, (u8_t *)value) )
     return MEMS_ERROR;
@@ -509,7 +509,7 @@ status_t LSM303AGR_MAG_R_MD(void *handle, LSM303AGR_MAG_MD_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_ODR(void *handle, LSM303AGR_MAG_ODR_t newValue)
+mems_status_t  LSM303AGR_MAG_W_ODR(void *handle, LSM303AGR_MAG_ODR_t newValue)
 {
   u8_t value;
 
@@ -533,7 +533,7 @@ status_t  LSM303AGR_MAG_W_ODR(void *handle, LSM303AGR_MAG_ODR_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ODR(void *handle, LSM303AGR_MAG_ODR_t *value)
+mems_status_t LSM303AGR_MAG_R_ODR(void *handle, LSM303AGR_MAG_ODR_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_A, (u8_t *)value) )
     return MEMS_ERROR;
@@ -549,7 +549,7 @@ status_t LSM303AGR_MAG_R_ODR(void *handle, LSM303AGR_MAG_ODR_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_LP(void *handle, LSM303AGR_MAG_LP_t newValue)
+mems_status_t  LSM303AGR_MAG_W_LP(void *handle, LSM303AGR_MAG_LP_t newValue)
 {
   u8_t value;
 
@@ -573,7 +573,7 @@ status_t  LSM303AGR_MAG_W_LP(void *handle, LSM303AGR_MAG_LP_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_LP(void *handle, LSM303AGR_MAG_LP_t *value)
+mems_status_t LSM303AGR_MAG_R_LP(void *handle, LSM303AGR_MAG_LP_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_A, (u8_t *)value) )
     return MEMS_ERROR;
@@ -589,7 +589,7 @@ status_t LSM303AGR_MAG_R_LP(void *handle, LSM303AGR_MAG_LP_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_SOFT_RST(void *handle, LSM303AGR_MAG_SOFT_RST_t newValue)
+mems_status_t  LSM303AGR_MAG_W_SOFT_RST(void *handle, LSM303AGR_MAG_SOFT_RST_t newValue)
 {
   u8_t value;
 
@@ -613,7 +613,7 @@ status_t  LSM303AGR_MAG_W_SOFT_RST(void *handle, LSM303AGR_MAG_SOFT_RST_t newVal
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_SOFT_RST(void *handle, LSM303AGR_MAG_SOFT_RST_t *value)
+mems_status_t LSM303AGR_MAG_R_SOFT_RST(void *handle, LSM303AGR_MAG_SOFT_RST_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_A, (u8_t *)value) )
     return MEMS_ERROR;
@@ -629,7 +629,7 @@ status_t LSM303AGR_MAG_R_SOFT_RST(void *handle, LSM303AGR_MAG_SOFT_RST_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_LPF(void *handle, LSM303AGR_MAG_LPF_t newValue)
+mems_status_t  LSM303AGR_MAG_W_LPF(void *handle, LSM303AGR_MAG_LPF_t newValue)
 {
   u8_t value;
 
@@ -653,7 +653,7 @@ status_t  LSM303AGR_MAG_W_LPF(void *handle, LSM303AGR_MAG_LPF_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_LPF(void *handle, LSM303AGR_MAG_LPF_t *value)
+mems_status_t LSM303AGR_MAG_R_LPF(void *handle, LSM303AGR_MAG_LPF_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_B, (u8_t *)value) )
     return MEMS_ERROR;
@@ -669,7 +669,7 @@ status_t LSM303AGR_MAG_R_LPF(void *handle, LSM303AGR_MAG_LPF_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_OFF_CANC(void *handle, LSM303AGR_MAG_OFF_CANC_t newValue)
+mems_status_t  LSM303AGR_MAG_W_OFF_CANC(void *handle, LSM303AGR_MAG_OFF_CANC_t newValue)
 {
   u8_t value;
 
@@ -693,7 +693,7 @@ status_t  LSM303AGR_MAG_W_OFF_CANC(void *handle, LSM303AGR_MAG_OFF_CANC_t newVal
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_OFF_CANC(void *handle, LSM303AGR_MAG_OFF_CANC_t *value)
+mems_status_t LSM303AGR_MAG_R_OFF_CANC(void *handle, LSM303AGR_MAG_OFF_CANC_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_B, (u8_t *)value) )
     return MEMS_ERROR;
@@ -709,7 +709,7 @@ status_t LSM303AGR_MAG_R_OFF_CANC(void *handle, LSM303AGR_MAG_OFF_CANC_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_SET_FREQ(void *handle, LSM303AGR_MAG_SET_FREQ_t newValue)
+mems_status_t  LSM303AGR_MAG_W_SET_FREQ(void *handle, LSM303AGR_MAG_SET_FREQ_t newValue)
 {
   u8_t value;
 
@@ -733,7 +733,7 @@ status_t  LSM303AGR_MAG_W_SET_FREQ(void *handle, LSM303AGR_MAG_SET_FREQ_t newVal
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_SET_FREQ(void *handle, LSM303AGR_MAG_SET_FREQ_t *value)
+mems_status_t LSM303AGR_MAG_R_SET_FREQ(void *handle, LSM303AGR_MAG_SET_FREQ_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_B, (u8_t *)value) )
     return MEMS_ERROR;
@@ -749,7 +749,7 @@ status_t LSM303AGR_MAG_R_SET_FREQ(void *handle, LSM303AGR_MAG_SET_FREQ_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_INT_ON_DATAOFF(void *handle, LSM303AGR_MAG_INT_ON_DATAOFF_t newValue)
+mems_status_t  LSM303AGR_MAG_W_INT_ON_DATAOFF(void *handle, LSM303AGR_MAG_INT_ON_DATAOFF_t newValue)
 {
   u8_t value;
 
@@ -773,7 +773,7 @@ status_t  LSM303AGR_MAG_W_INT_ON_DATAOFF(void *handle, LSM303AGR_MAG_INT_ON_DATA
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_INT_ON_DATAOFF(void *handle, LSM303AGR_MAG_INT_ON_DATAOFF_t *value)
+mems_status_t LSM303AGR_MAG_R_INT_ON_DATAOFF(void *handle, LSM303AGR_MAG_INT_ON_DATAOFF_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_B, (u8_t *)value) )
     return MEMS_ERROR;
@@ -789,7 +789,7 @@ status_t LSM303AGR_MAG_R_INT_ON_DATAOFF(void *handle, LSM303AGR_MAG_INT_ON_DATAO
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_INT_MAG(void *handle, LSM303AGR_MAG_INT_MAG_t newValue)
+mems_status_t  LSM303AGR_MAG_W_INT_MAG(void *handle, LSM303AGR_MAG_INT_MAG_t newValue)
 {
   u8_t value;
 
@@ -813,7 +813,7 @@ status_t  LSM303AGR_MAG_W_INT_MAG(void *handle, LSM303AGR_MAG_INT_MAG_t newValue
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_INT_MAG(void *handle, LSM303AGR_MAG_INT_MAG_t *value)
+mems_status_t LSM303AGR_MAG_R_INT_MAG(void *handle, LSM303AGR_MAG_INT_MAG_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_C, (u8_t *)value) )
     return MEMS_ERROR;
@@ -829,7 +829,7 @@ status_t LSM303AGR_MAG_R_INT_MAG(void *handle, LSM303AGR_MAG_INT_MAG_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_ST(void *handle, LSM303AGR_MAG_ST_t newValue)
+mems_status_t  LSM303AGR_MAG_W_ST(void *handle, LSM303AGR_MAG_ST_t newValue)
 {
   u8_t value;
 
@@ -853,7 +853,7 @@ status_t  LSM303AGR_MAG_W_ST(void *handle, LSM303AGR_MAG_ST_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ST(void *handle, LSM303AGR_MAG_ST_t *value)
+mems_status_t LSM303AGR_MAG_R_ST(void *handle, LSM303AGR_MAG_ST_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_C, (u8_t *)value) )
     return MEMS_ERROR;
@@ -869,7 +869,7 @@ status_t LSM303AGR_MAG_R_ST(void *handle, LSM303AGR_MAG_ST_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_BLE(void *handle, LSM303AGR_MAG_BLE_t newValue)
+mems_status_t  LSM303AGR_MAG_W_BLE(void *handle, LSM303AGR_MAG_BLE_t newValue)
 {
   u8_t value;
 
@@ -893,7 +893,7 @@ status_t  LSM303AGR_MAG_W_BLE(void *handle, LSM303AGR_MAG_BLE_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_BLE(void *handle, LSM303AGR_MAG_BLE_t *value)
+mems_status_t LSM303AGR_MAG_R_BLE(void *handle, LSM303AGR_MAG_BLE_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_C, (u8_t *)value) )
     return MEMS_ERROR;
@@ -909,7 +909,7 @@ status_t LSM303AGR_MAG_R_BLE(void *handle, LSM303AGR_MAG_BLE_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_BDU(void *handle, LSM303AGR_MAG_BDU_t newValue)
+mems_status_t  LSM303AGR_MAG_W_BDU(void *handle, LSM303AGR_MAG_BDU_t newValue)
 {
   u8_t value;
 
@@ -933,7 +933,7 @@ status_t  LSM303AGR_MAG_W_BDU(void *handle, LSM303AGR_MAG_BDU_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_BDU(void *handle, LSM303AGR_MAG_BDU_t *value)
+mems_status_t LSM303AGR_MAG_R_BDU(void *handle, LSM303AGR_MAG_BDU_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_C, (u8_t *)value) )
     return MEMS_ERROR;
@@ -949,7 +949,7 @@ status_t LSM303AGR_MAG_R_BDU(void *handle, LSM303AGR_MAG_BDU_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_I2C_DIS(void *handle, LSM303AGR_MAG_I2C_DIS_t newValue)
+mems_status_t  LSM303AGR_MAG_W_I2C_DIS(void *handle, LSM303AGR_MAG_I2C_DIS_t newValue)
 {
   u8_t value;
 
@@ -973,7 +973,7 @@ status_t  LSM303AGR_MAG_W_I2C_DIS(void *handle, LSM303AGR_MAG_I2C_DIS_t newValue
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_I2C_DIS(void *handle, LSM303AGR_MAG_I2C_DIS_t *value)
+mems_status_t LSM303AGR_MAG_R_I2C_DIS(void *handle, LSM303AGR_MAG_I2C_DIS_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_C, (u8_t *)value) )
     return MEMS_ERROR;
@@ -989,7 +989,7 @@ status_t LSM303AGR_MAG_R_I2C_DIS(void *handle, LSM303AGR_MAG_I2C_DIS_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_INT_MAG_PIN(void *handle, LSM303AGR_MAG_INT_MAG_PIN_t newValue)
+mems_status_t  LSM303AGR_MAG_W_INT_MAG_PIN(void *handle, LSM303AGR_MAG_INT_MAG_PIN_t newValue)
 {
   u8_t value;
 
@@ -1013,7 +1013,7 @@ status_t  LSM303AGR_MAG_W_INT_MAG_PIN(void *handle, LSM303AGR_MAG_INT_MAG_PIN_t 
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_INT_MAG_PIN(void *handle, LSM303AGR_MAG_INT_MAG_PIN_t *value)
+mems_status_t LSM303AGR_MAG_R_INT_MAG_PIN(void *handle, LSM303AGR_MAG_INT_MAG_PIN_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_CFG_REG_C, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1029,7 +1029,7 @@ status_t LSM303AGR_MAG_R_INT_MAG_PIN(void *handle, LSM303AGR_MAG_INT_MAG_PIN_t *
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_IEN(void *handle, LSM303AGR_MAG_IEN_t newValue)
+mems_status_t  LSM303AGR_MAG_W_IEN(void *handle, LSM303AGR_MAG_IEN_t newValue)
 {
   u8_t value;
 
@@ -1053,7 +1053,7 @@ status_t  LSM303AGR_MAG_W_IEN(void *handle, LSM303AGR_MAG_IEN_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_IEN(void *handle, LSM303AGR_MAG_IEN_t *value)
+mems_status_t LSM303AGR_MAG_R_IEN(void *handle, LSM303AGR_MAG_IEN_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_CTRL_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1069,7 +1069,7 @@ status_t LSM303AGR_MAG_R_IEN(void *handle, LSM303AGR_MAG_IEN_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_IEL(void *handle, LSM303AGR_MAG_IEL_t newValue)
+mems_status_t  LSM303AGR_MAG_W_IEL(void *handle, LSM303AGR_MAG_IEL_t newValue)
 {
   u8_t value;
 
@@ -1093,7 +1093,7 @@ status_t  LSM303AGR_MAG_W_IEL(void *handle, LSM303AGR_MAG_IEL_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_IEL(void *handle, LSM303AGR_MAG_IEL_t *value)
+mems_status_t LSM303AGR_MAG_R_IEL(void *handle, LSM303AGR_MAG_IEL_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_CTRL_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1109,7 +1109,7 @@ status_t LSM303AGR_MAG_R_IEL(void *handle, LSM303AGR_MAG_IEL_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_IEA(void *handle, LSM303AGR_MAG_IEA_t newValue)
+mems_status_t  LSM303AGR_MAG_W_IEA(void *handle, LSM303AGR_MAG_IEA_t newValue)
 {
   u8_t value;
 
@@ -1133,7 +1133,7 @@ status_t  LSM303AGR_MAG_W_IEA(void *handle, LSM303AGR_MAG_IEA_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_IEA(void *handle, LSM303AGR_MAG_IEA_t *value)
+mems_status_t LSM303AGR_MAG_R_IEA(void *handle, LSM303AGR_MAG_IEA_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_CTRL_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1149,7 +1149,7 @@ status_t LSM303AGR_MAG_R_IEA(void *handle, LSM303AGR_MAG_IEA_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_ZIEN(void *handle, LSM303AGR_MAG_ZIEN_t newValue)
+mems_status_t  LSM303AGR_MAG_W_ZIEN(void *handle, LSM303AGR_MAG_ZIEN_t newValue)
 {
   u8_t value;
 
@@ -1173,7 +1173,7 @@ status_t  LSM303AGR_MAG_W_ZIEN(void *handle, LSM303AGR_MAG_ZIEN_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ZIEN(void *handle, LSM303AGR_MAG_ZIEN_t *value)
+mems_status_t LSM303AGR_MAG_R_ZIEN(void *handle, LSM303AGR_MAG_ZIEN_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_CTRL_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1189,7 +1189,7 @@ status_t LSM303AGR_MAG_R_ZIEN(void *handle, LSM303AGR_MAG_ZIEN_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_YIEN(void *handle, LSM303AGR_MAG_YIEN_t newValue)
+mems_status_t  LSM303AGR_MAG_W_YIEN(void *handle, LSM303AGR_MAG_YIEN_t newValue)
 {
   u8_t value;
 
@@ -1213,7 +1213,7 @@ status_t  LSM303AGR_MAG_W_YIEN(void *handle, LSM303AGR_MAG_YIEN_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_YIEN(void *handle, LSM303AGR_MAG_YIEN_t *value)
+mems_status_t LSM303AGR_MAG_R_YIEN(void *handle, LSM303AGR_MAG_YIEN_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_CTRL_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1229,7 +1229,7 @@ status_t LSM303AGR_MAG_R_YIEN(void *handle, LSM303AGR_MAG_YIEN_t *value)
 * Output         : None
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t  LSM303AGR_MAG_W_XIEN(void *handle, LSM303AGR_MAG_XIEN_t newValue)
+mems_status_t  LSM303AGR_MAG_W_XIEN(void *handle, LSM303AGR_MAG_XIEN_t newValue)
 {
   u8_t value;
 
@@ -1253,7 +1253,7 @@ status_t  LSM303AGR_MAG_W_XIEN(void *handle, LSM303AGR_MAG_XIEN_t newValue)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_XIEN(void *handle, LSM303AGR_MAG_XIEN_t *value)
+mems_status_t LSM303AGR_MAG_R_XIEN(void *handle, LSM303AGR_MAG_XIEN_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_CTRL_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1270,7 +1270,7 @@ status_t LSM303AGR_MAG_R_XIEN(void *handle, LSM303AGR_MAG_XIEN_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_INT(void *handle, LSM303AGR_MAG_INT_t *value)
+mems_status_t LSM303AGR_MAG_R_INT(void *handle, LSM303AGR_MAG_INT_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1287,7 +1287,7 @@ status_t LSM303AGR_MAG_R_INT(void *handle, LSM303AGR_MAG_INT_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_MROI(void *handle, LSM303AGR_MAG_MROI_t *value)
+mems_status_t LSM303AGR_MAG_R_MROI(void *handle, LSM303AGR_MAG_MROI_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1304,7 +1304,7 @@ status_t LSM303AGR_MAG_R_MROI(void *handle, LSM303AGR_MAG_MROI_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_N_TH_S_Z(void *handle, LSM303AGR_MAG_N_TH_S_Z_t *value)
+mems_status_t LSM303AGR_MAG_R_N_TH_S_Z(void *handle, LSM303AGR_MAG_N_TH_S_Z_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1321,7 +1321,7 @@ status_t LSM303AGR_MAG_R_N_TH_S_Z(void *handle, LSM303AGR_MAG_N_TH_S_Z_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_N_TH_S_Y(void *handle, LSM303AGR_MAG_N_TH_S_Y_t *value)
+mems_status_t LSM303AGR_MAG_R_N_TH_S_Y(void *handle, LSM303AGR_MAG_N_TH_S_Y_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1338,7 +1338,7 @@ status_t LSM303AGR_MAG_R_N_TH_S_Y(void *handle, LSM303AGR_MAG_N_TH_S_Y_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_N_TH_S_X(void *handle, LSM303AGR_MAG_N_TH_S_X_t *value)
+mems_status_t LSM303AGR_MAG_R_N_TH_S_X(void *handle, LSM303AGR_MAG_N_TH_S_X_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1355,7 +1355,7 @@ status_t LSM303AGR_MAG_R_N_TH_S_X(void *handle, LSM303AGR_MAG_N_TH_S_X_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_P_TH_S_Z(void *handle, LSM303AGR_MAG_P_TH_S_Z_t *value)
+mems_status_t LSM303AGR_MAG_R_P_TH_S_Z(void *handle, LSM303AGR_MAG_P_TH_S_Z_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1372,7 +1372,7 @@ status_t LSM303AGR_MAG_R_P_TH_S_Z(void *handle, LSM303AGR_MAG_P_TH_S_Z_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_P_TH_S_Y(void *handle, LSM303AGR_MAG_P_TH_S_Y_t *value)
+mems_status_t LSM303AGR_MAG_R_P_TH_S_Y(void *handle, LSM303AGR_MAG_P_TH_S_Y_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1389,7 +1389,7 @@ status_t LSM303AGR_MAG_R_P_TH_S_Y(void *handle, LSM303AGR_MAG_P_TH_S_Y_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_P_TH_S_X(void *handle, LSM303AGR_MAG_P_TH_S_X_t *value)
+mems_status_t LSM303AGR_MAG_R_P_TH_S_X(void *handle, LSM303AGR_MAG_P_TH_S_X_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_INT_SOURCE_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1407,7 +1407,7 @@ status_t LSM303AGR_MAG_R_P_TH_S_X(void *handle, LSM303AGR_MAG_P_TH_S_X_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_XDA(void *handle, LSM303AGR_MAG_XDA_t *value)
+mems_status_t LSM303AGR_MAG_R_XDA(void *handle, LSM303AGR_MAG_XDA_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1424,7 +1424,7 @@ status_t LSM303AGR_MAG_R_XDA(void *handle, LSM303AGR_MAG_XDA_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_YDA(void *handle, LSM303AGR_MAG_YDA_t *value)
+mems_status_t LSM303AGR_MAG_R_YDA(void *handle, LSM303AGR_MAG_YDA_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1441,7 +1441,7 @@ status_t LSM303AGR_MAG_R_YDA(void *handle, LSM303AGR_MAG_YDA_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ZDA(void *handle, LSM303AGR_MAG_ZDA_t *value)
+mems_status_t LSM303AGR_MAG_R_ZDA(void *handle, LSM303AGR_MAG_ZDA_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1458,7 +1458,7 @@ status_t LSM303AGR_MAG_R_ZDA(void *handle, LSM303AGR_MAG_ZDA_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ZYXDA(void *handle, LSM303AGR_MAG_ZYXDA_t *value)
+mems_status_t LSM303AGR_MAG_R_ZYXDA(void *handle, LSM303AGR_MAG_ZYXDA_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1475,7 +1475,7 @@ status_t LSM303AGR_MAG_R_ZYXDA(void *handle, LSM303AGR_MAG_ZYXDA_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_XOR(void *handle, LSM303AGR_MAG_XOR_t *value)
+mems_status_t LSM303AGR_MAG_R_XOR(void *handle, LSM303AGR_MAG_XOR_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1492,7 +1492,7 @@ status_t LSM303AGR_MAG_R_XOR(void *handle, LSM303AGR_MAG_XOR_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_YOR(void *handle, LSM303AGR_MAG_YOR_t *value)
+mems_status_t LSM303AGR_MAG_R_YOR(void *handle, LSM303AGR_MAG_YOR_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1509,7 +1509,7 @@ status_t LSM303AGR_MAG_R_YOR(void *handle, LSM303AGR_MAG_YOR_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ZOR(void *handle, LSM303AGR_MAG_ZOR_t *value)
+mems_status_t LSM303AGR_MAG_R_ZOR(void *handle, LSM303AGR_MAG_ZOR_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1526,7 +1526,7 @@ status_t LSM303AGR_MAG_R_ZOR(void *handle, LSM303AGR_MAG_ZOR_t *value)
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
 
-status_t LSM303AGR_MAG_R_ZYXOR(void *handle, LSM303AGR_MAG_ZYXOR_t *value)
+mems_status_t LSM303AGR_MAG_R_ZYXOR(void *handle, LSM303AGR_MAG_ZYXOR_t *value)
 {
  if( !LSM303AGR_MAG_ReadReg(handle, LSM303AGR_MAG_STATUS_REG, (u8_t *)value) )
     return MEMS_ERROR;
@@ -1536,13 +1536,13 @@ status_t LSM303AGR_MAG_R_ZYXOR(void *handle, LSM303AGR_MAG_ZYXOR_t *value)
   return MEMS_SUCCESS;
 }
 /*******************************************************************************
-* Function Name  : status_t LSM303AGR_MAG_Get_Raw_Magnetic(u8_t *buff)
+* Function Name  : mems_status_t LSM303AGR_MAG_Get_Raw_Magnetic(u8_t *buff)
 * Description    : Read Magnetic output register
 * Input          : pointer to [u8_t]
 * Output         : Magnetic buffer u8_t
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t LSM303AGR_MAG_Get_Raw_Magnetic(void *handle, u8_t *buff) 
+mems_status_t LSM303AGR_MAG_Get_Raw_Magnetic(void *handle, u8_t *buff) 
 {
   u8_t i, j, k;
   u8_t numberOfByteForDimension;
@@ -1565,7 +1565,7 @@ status_t LSM303AGR_MAG_Get_Raw_Magnetic(void *handle, u8_t *buff)
 
 #define LSM303AGR_MAG_SENSITIVITY	15/10
 
-status_t LSM303AGR_MAG_Get_Magnetic(void *handle, int *buff)
+mems_status_t LSM303AGR_MAG_Get_Magnetic(void *handle, int *buff)
 {
   Type3Axis16bit_U raw_data_tmp;
 
@@ -1583,13 +1583,13 @@ status_t LSM303AGR_MAG_Get_Magnetic(void *handle, int *buff)
 }
 
 /*******************************************************************************
-* Function Name  : status_t LSM303AGR_MAG_Get_IntThreshld(u8_t *buff)
+* Function Name  : mems_status_t LSM303AGR_MAG_Get_IntThreshld(u8_t *buff)
 * Description    : Read IntThreshld output register
 * Input          : pointer to [u8_t]
 * Output         : IntThreshld buffer u8_t
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t LSM303AGR_MAG_Get_IntThreshld(void *handle, u8_t *buff) 
+mems_status_t LSM303AGR_MAG_Get_IntThreshld(void *handle, u8_t *buff) 
 {
   u8_t i, j, k;
   u8_t numberOfByteForDimension;
@@ -1611,13 +1611,13 @@ status_t LSM303AGR_MAG_Get_IntThreshld(void *handle, u8_t *buff)
 }
 
 /*******************************************************************************
-* Function Name  : status_t LSM303AGR_MAG_Set_IntThreshld(u8_t *buff)
+* Function Name  : mems_status_t LSM303AGR_MAG_Set_IntThreshld(u8_t *buff)
 * Description    : Write IntThreshld output register
 * Input          : pointer to [u8_t]
 * Output         : IntThreshld buffer u8_t
 * Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
 *******************************************************************************/
-status_t LSM303AGR_MAG_Set_IntThreshld(void *handle, u8_t *buff) 
+mems_status_t LSM303AGR_MAG_Set_IntThreshld(void *handle, u8_t *buff) 
 {
   u8_t i, j, k;
   u8_t numberOfByteForDimension;
