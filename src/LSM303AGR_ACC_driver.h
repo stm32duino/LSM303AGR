@@ -85,7 +85,7 @@ typedef union{
 typedef enum {
   MEMS_SUCCESS = 0x01,
   MEMS_ERROR   = 0x00	
-} status_t;
+} mems_status_t;
 
 #endif /*__SHARED__TYPES*/
 
@@ -107,8 +107,8 @@ void LSM303AGR_ACC_SwapHighLowByte(u8_t *bufferToSwap, u8_t numberOfByte, u8_t d
 
 /* Public Function Prototypes ------------------------------------------------*/
 
-status_t LSM303AGR_ACC_ReadReg( void *handle, u8_t Reg, u8_t* Data );
-status_t LSM303AGR_ACC_WriteReg( void *handle, u8_t Reg, u8_t Data ); 
+mems_status_t LSM303AGR_ACC_ReadReg( void *handle, u8_t Reg, u8_t* Data );
+mems_status_t LSM303AGR_ACC_WriteReg( void *handle, u8_t Reg, u8_t Data ); 
 
 
 /************** Device Register  *******************/
@@ -165,7 +165,7 @@ typedef enum {
 } LSM303AGR_ACC_1DA_t;
 
 #define  	LSM303AGR_ACC_1DA_MASK  	0x01
-status_t LSM303AGR_ACC_R_x_data_avail(void *handle, LSM303AGR_ACC_1DA_t *value);
+mems_status_t LSM303AGR_ACC_R_x_data_avail(void *handle, LSM303AGR_ACC_1DA_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -179,7 +179,7 @@ typedef enum {
 } LSM303AGR_ACC_2DA__t;
 
 #define  	LSM303AGR_ACC_2DA__MASK  	0x02
-status_t LSM303AGR_ACC_R_y_data_avail(void *handle, LSM303AGR_ACC_2DA__t *value);
+mems_status_t LSM303AGR_ACC_R_y_data_avail(void *handle, LSM303AGR_ACC_2DA__t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -193,7 +193,7 @@ typedef enum {
 } LSM303AGR_ACC_3DA__t;
 
 #define  	LSM303AGR_ACC_3DA__MASK  	0x04
-status_t LSM303AGR_ACC_R_z_data_avail(void *handle, LSM303AGR_ACC_3DA__t *value);
+mems_status_t LSM303AGR_ACC_R_z_data_avail(void *handle, LSM303AGR_ACC_3DA__t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -207,7 +207,7 @@ typedef enum {
 } LSM303AGR_ACC_321DA__t;
 
 #define  	LSM303AGR_ACC_321DA__MASK  	0x08
-status_t LSM303AGR_ACC_R_xyz_data_avail(void *handle, LSM303AGR_ACC_321DA__t *value);
+mems_status_t LSM303AGR_ACC_R_xyz_data_avail(void *handle, LSM303AGR_ACC_321DA__t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -221,7 +221,7 @@ typedef enum {
 } LSM303AGR_ACC_1OR__t;
 
 #define  	LSM303AGR_ACC_1OR__MASK  	0x10
-status_t LSM303AGR_ACC_R_DataXOverrun(void *handle, LSM303AGR_ACC_1OR__t *value);
+mems_status_t LSM303AGR_ACC_R_DataXOverrun(void *handle, LSM303AGR_ACC_1OR__t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -235,7 +235,7 @@ typedef enum {
 } LSM303AGR_ACC_2OR__t;
 
 #define  	LSM303AGR_ACC_2OR__MASK  	0x20
-status_t LSM303AGR_ACC_R_DataYOverrun(void *handle, LSM303AGR_ACC_2OR__t *value);
+mems_status_t LSM303AGR_ACC_R_DataYOverrun(void *handle, LSM303AGR_ACC_2OR__t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -249,7 +249,7 @@ typedef enum {
 } LSM303AGR_ACC_3OR__t;
 
 #define  	LSM303AGR_ACC_3OR__MASK  	0x40
-status_t LSM303AGR_ACC_R_DataZOverrun(void *handle, LSM303AGR_ACC_3OR__t *value);
+mems_status_t LSM303AGR_ACC_R_DataZOverrun(void *handle, LSM303AGR_ACC_3OR__t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -263,7 +263,7 @@ typedef enum {
 } LSM303AGR_ACC_321OR__t;
 
 #define  	LSM303AGR_ACC_321OR__MASK  	0x80
-status_t LSM303AGR_ACC_R_DataXYZOverrun(void *handle, LSM303AGR_ACC_321OR__t *value);
+mems_status_t LSM303AGR_ACC_R_DataXYZOverrun(void *handle, LSM303AGR_ACC_321OR__t *value);
 
 /*******************************************************************************
 * Register      : INT_COUNTER_REG
@@ -273,7 +273,7 @@ status_t LSM303AGR_ACC_R_DataXYZOverrun(void *handle, LSM303AGR_ACC_321OR__t *va
 *******************************************************************************/
 #define  	LSM303AGR_ACC_IC_MASK  	0xFF
 #define  	LSM303AGR_ACC_IC_POSITION  	0
-status_t LSM303AGR_ACC_R_int_counter(void *handle, u8_t *value);
+mems_status_t LSM303AGR_ACC_R_int_counter(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : WHO_AM_I
@@ -283,7 +283,7 @@ status_t LSM303AGR_ACC_R_int_counter(void *handle, u8_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_WHO_AM_I_MASK  	0xFF
 #define  	LSM303AGR_ACC_WHO_AM_I_POSITION  	0
-status_t LSM303AGR_ACC_R_WHO_AM_I(void *handle, u8_t *value);
+mems_status_t LSM303AGR_ACC_R_WHO_AM_I(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : TEMP_CFG_REG
@@ -297,8 +297,8 @@ typedef enum {
 } LSM303AGR_ACC_TEMP_EN_t;
 
 #define  	LSM303AGR_ACC_TEMP_EN_MASK  	0x40
-status_t  LSM303AGR_ACC_W_TEMP_EN_bits(void *handle, LSM303AGR_ACC_TEMP_EN_t newValue);
-status_t LSM303AGR_ACC_R_TEMP_EN_bits(void *handle, LSM303AGR_ACC_TEMP_EN_t *value);
+mems_status_t  LSM303AGR_ACC_W_TEMP_EN_bits(void *handle, LSM303AGR_ACC_TEMP_EN_t newValue);
+mems_status_t LSM303AGR_ACC_R_TEMP_EN_bits(void *handle, LSM303AGR_ACC_TEMP_EN_t *value);
 
 /*******************************************************************************
 * Register      : TEMP_CFG_REG
@@ -312,8 +312,8 @@ typedef enum {
 } LSM303AGR_ACC_ADC_PD_t;
 
 #define  	LSM303AGR_ACC_ADC_PD_MASK  	0x80
-status_t  LSM303AGR_ACC_W_ADC_PD(void *handle, LSM303AGR_ACC_ADC_PD_t newValue);
-status_t LSM303AGR_ACC_R_ADC_PD(void *handle, LSM303AGR_ACC_ADC_PD_t *value);
+mems_status_t  LSM303AGR_ACC_W_ADC_PD(void *handle, LSM303AGR_ACC_ADC_PD_t newValue);
+mems_status_t LSM303AGR_ACC_R_ADC_PD(void *handle, LSM303AGR_ACC_ADC_PD_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG1
@@ -327,8 +327,8 @@ typedef enum {
 } LSM303AGR_ACC_XEN_t;
 
 #define  	LSM303AGR_ACC_XEN_MASK  	0x01
-status_t  LSM303AGR_ACC_W_XEN(void *handle, LSM303AGR_ACC_XEN_t newValue);
-status_t LSM303AGR_ACC_R_XEN(void *handle, LSM303AGR_ACC_XEN_t *value);
+mems_status_t  LSM303AGR_ACC_W_XEN(void *handle, LSM303AGR_ACC_XEN_t newValue);
+mems_status_t LSM303AGR_ACC_R_XEN(void *handle, LSM303AGR_ACC_XEN_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG1
@@ -342,8 +342,8 @@ typedef enum {
 } LSM303AGR_ACC_YEN_t;
 
 #define  	LSM303AGR_ACC_YEN_MASK  	0x02
-status_t  LSM303AGR_ACC_W_YEN(void *handle, LSM303AGR_ACC_YEN_t newValue);
-status_t LSM303AGR_ACC_R_YEN(void *handle, LSM303AGR_ACC_YEN_t *value);
+mems_status_t  LSM303AGR_ACC_W_YEN(void *handle, LSM303AGR_ACC_YEN_t newValue);
+mems_status_t LSM303AGR_ACC_R_YEN(void *handle, LSM303AGR_ACC_YEN_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG1
@@ -357,8 +357,8 @@ typedef enum {
 } LSM303AGR_ACC_ZEN_t;
 
 #define  	LSM303AGR_ACC_ZEN_MASK  	0x04
-status_t  LSM303AGR_ACC_W_ZEN(void *handle, LSM303AGR_ACC_ZEN_t newValue);
-status_t LSM303AGR_ACC_R_ZEN(void *handle, LSM303AGR_ACC_ZEN_t *value);
+mems_status_t  LSM303AGR_ACC_W_ZEN(void *handle, LSM303AGR_ACC_ZEN_t newValue);
+mems_status_t LSM303AGR_ACC_R_ZEN(void *handle, LSM303AGR_ACC_ZEN_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG1
@@ -372,8 +372,8 @@ typedef enum {
 } LSM303AGR_ACC_LPEN_t;
 
 #define  	LSM303AGR_ACC_LPEN_MASK  	0x08
-status_t  LSM303AGR_ACC_W_LOWPWR_EN(void *handle, LSM303AGR_ACC_LPEN_t newValue);
-status_t LSM303AGR_ACC_R_LOWPWR_EN(void *handle, LSM303AGR_ACC_LPEN_t *value);
+mems_status_t  LSM303AGR_ACC_W_LOWPWR_EN(void *handle, LSM303AGR_ACC_LPEN_t newValue);
+mems_status_t LSM303AGR_ACC_R_LOWPWR_EN(void *handle, LSM303AGR_ACC_LPEN_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG1
@@ -395,8 +395,8 @@ typedef enum {
 } LSM303AGR_ACC_ODR_t;
 
 #define  	LSM303AGR_ACC_ODR_MASK  	0xF0
-status_t  LSM303AGR_ACC_W_ODR(void *handle, LSM303AGR_ACC_ODR_t newValue);
-status_t LSM303AGR_ACC_R_ODR(void *handle, LSM303AGR_ACC_ODR_t *value);
+mems_status_t  LSM303AGR_ACC_W_ODR(void *handle, LSM303AGR_ACC_ODR_t newValue);
+mems_status_t LSM303AGR_ACC_R_ODR(void *handle, LSM303AGR_ACC_ODR_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG2
@@ -410,8 +410,8 @@ typedef enum {
 } LSM303AGR_ACC_HPIS1_t;
 
 #define  	LSM303AGR_ACC_HPIS1_MASK  	0x01
-status_t  LSM303AGR_ACC_W_hpf_aoi_en_int1(void *handle, LSM303AGR_ACC_HPIS1_t newValue);
-status_t LSM303AGR_ACC_R_hpf_aoi_en_int1(void *handle, LSM303AGR_ACC_HPIS1_t *value);
+mems_status_t  LSM303AGR_ACC_W_hpf_aoi_en_int1(void *handle, LSM303AGR_ACC_HPIS1_t newValue);
+mems_status_t LSM303AGR_ACC_R_hpf_aoi_en_int1(void *handle, LSM303AGR_ACC_HPIS1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG2
@@ -425,8 +425,8 @@ typedef enum {
 } LSM303AGR_ACC_HPIS2_t;
 
 #define  	LSM303AGR_ACC_HPIS2_MASK  	0x02
-status_t  LSM303AGR_ACC_W_hpf_aoi_en_int2(void *handle, LSM303AGR_ACC_HPIS2_t newValue);
-status_t LSM303AGR_ACC_R_hpf_aoi_en_int2(void *handle, LSM303AGR_ACC_HPIS2_t *value);
+mems_status_t  LSM303AGR_ACC_W_hpf_aoi_en_int2(void *handle, LSM303AGR_ACC_HPIS2_t newValue);
+mems_status_t LSM303AGR_ACC_R_hpf_aoi_en_int2(void *handle, LSM303AGR_ACC_HPIS2_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG2
@@ -440,8 +440,8 @@ typedef enum {
 } LSM303AGR_ACC_HPCLICK_t;
 
 #define  	LSM303AGR_ACC_HPCLICK_MASK  	0x04
-status_t  LSM303AGR_ACC_W_hpf_click_en(void *handle, LSM303AGR_ACC_HPCLICK_t newValue);
-status_t LSM303AGR_ACC_R_hpf_click_en(void *handle, LSM303AGR_ACC_HPCLICK_t *value);
+mems_status_t  LSM303AGR_ACC_W_hpf_click_en(void *handle, LSM303AGR_ACC_HPCLICK_t newValue);
+mems_status_t LSM303AGR_ACC_R_hpf_click_en(void *handle, LSM303AGR_ACC_HPCLICK_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG2
@@ -455,8 +455,8 @@ typedef enum {
 } LSM303AGR_ACC_FDS_t;
 
 #define  	LSM303AGR_ACC_FDS_MASK  	0x08
-status_t  LSM303AGR_ACC_W_Data_Filter(void *handle, LSM303AGR_ACC_FDS_t newValue);
-status_t LSM303AGR_ACC_R_Data_Filter(void *handle, LSM303AGR_ACC_FDS_t *value);
+mems_status_t  LSM303AGR_ACC_W_Data_Filter(void *handle, LSM303AGR_ACC_FDS_t newValue);
+mems_status_t LSM303AGR_ACC_R_Data_Filter(void *handle, LSM303AGR_ACC_FDS_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG2
@@ -472,8 +472,8 @@ typedef enum {
 } LSM303AGR_ACC_HPCF_t;
 
 #define  	LSM303AGR_ACC_HPCF_MASK  	0x30
-status_t  LSM303AGR_ACC_W_hpf_cutoff_freq(void *handle, LSM303AGR_ACC_HPCF_t newValue);
-status_t LSM303AGR_ACC_R_hpf_cutoff_freq(void *handle, LSM303AGR_ACC_HPCF_t *value);
+mems_status_t  LSM303AGR_ACC_W_hpf_cutoff_freq(void *handle, LSM303AGR_ACC_HPCF_t newValue);
+mems_status_t LSM303AGR_ACC_R_hpf_cutoff_freq(void *handle, LSM303AGR_ACC_HPCF_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG2
@@ -489,8 +489,8 @@ typedef enum {
 } LSM303AGR_ACC_HPM_t;
 
 #define  	LSM303AGR_ACC_HPM_MASK  	0xC0
-status_t  LSM303AGR_ACC_W_hpf_mode(void *handle, LSM303AGR_ACC_HPM_t newValue);
-status_t LSM303AGR_ACC_R_hpf_mode(void *handle, LSM303AGR_ACC_HPM_t *value);
+mems_status_t  LSM303AGR_ACC_W_hpf_mode(void *handle, LSM303AGR_ACC_HPM_t newValue);
+mems_status_t LSM303AGR_ACC_R_hpf_mode(void *handle, LSM303AGR_ACC_HPM_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -504,8 +504,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_OVERRUN_t;
 
 #define  	LSM303AGR_ACC_I1_OVERRUN_MASK  	0x02
-status_t  LSM303AGR_ACC_W_FIFO_Overrun_on_INT1(void *handle, LSM303AGR_ACC_I1_OVERRUN_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_Overrun_on_INT1(void *handle, LSM303AGR_ACC_I1_OVERRUN_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_Overrun_on_INT1(void *handle, LSM303AGR_ACC_I1_OVERRUN_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_Overrun_on_INT1(void *handle, LSM303AGR_ACC_I1_OVERRUN_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -519,8 +519,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_WTM_t;
 
 #define  	LSM303AGR_ACC_I1_WTM_MASK  	0x04
-status_t  LSM303AGR_ACC_W_FIFO_Watermark_on_INT1(void *handle, LSM303AGR_ACC_I1_WTM_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_Watermark_on_INT1(void *handle, LSM303AGR_ACC_I1_WTM_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_Watermark_on_INT1(void *handle, LSM303AGR_ACC_I1_WTM_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_Watermark_on_INT1(void *handle, LSM303AGR_ACC_I1_WTM_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -534,8 +534,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_DRDY2_t;
 
 #define  	LSM303AGR_ACC_I1_DRDY2_MASK  	0x08
-status_t  LSM303AGR_ACC_W_FIFO_DRDY2_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY2_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_DRDY2_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY2_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_DRDY2_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY2_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_DRDY2_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY2_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -549,8 +549,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_DRDY1_t;
 
 #define  	LSM303AGR_ACC_I1_DRDY1_MASK  	0x10
-status_t  LSM303AGR_ACC_W_FIFO_DRDY1_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY1_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_DRDY1_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY1_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_DRDY1_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY1_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_DRDY1_on_INT1(void *handle, LSM303AGR_ACC_I1_DRDY1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -564,8 +564,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_AOI2_t;
 
 #define  	LSM303AGR_ACC_I1_AOI2_MASK  	0x20
-status_t  LSM303AGR_ACC_W_FIFO_AOL2_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI2_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_AOL2_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI2_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_AOL2_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI2_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_AOL2_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI2_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -579,8 +579,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_AOI1_t;
 
 #define  	LSM303AGR_ACC_I1_AOI1_MASK  	0x40
-status_t  LSM303AGR_ACC_W_FIFO_AOL1_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI1_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_AOL1_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI1_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_AOL1_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI1_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_AOL1_on_INT1(void *handle, LSM303AGR_ACC_I1_AOI1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG3
@@ -594,8 +594,8 @@ typedef enum {
 } LSM303AGR_ACC_I1_CLICK_t;
 
 #define  	LSM303AGR_ACC_I1_CLICK_MASK  	0x80
-status_t  LSM303AGR_ACC_W_FIFO_Click_on_INT1(void *handle, LSM303AGR_ACC_I1_CLICK_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_Click_on_INT1(void *handle, LSM303AGR_ACC_I1_CLICK_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_Click_on_INT1(void *handle, LSM303AGR_ACC_I1_CLICK_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_Click_on_INT1(void *handle, LSM303AGR_ACC_I1_CLICK_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG4
@@ -609,8 +609,8 @@ typedef enum {
 } LSM303AGR_ACC_SIM_t;
 
 #define  	LSM303AGR_ACC_SIM_MASK  	0x01
-status_t  LSM303AGR_ACC_W_SPI_mode(void *handle, LSM303AGR_ACC_SIM_t newValue);
-status_t LSM303AGR_ACC_R_SPI_mode(void *handle, LSM303AGR_ACC_SIM_t *value);
+mems_status_t  LSM303AGR_ACC_W_SPI_mode(void *handle, LSM303AGR_ACC_SIM_t newValue);
+mems_status_t LSM303AGR_ACC_R_SPI_mode(void *handle, LSM303AGR_ACC_SIM_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG4
@@ -626,8 +626,8 @@ typedef enum {
 } LSM303AGR_ACC_ST_t;
 
 #define  	LSM303AGR_ACC_ST_MASK  	0x06
-status_t  LSM303AGR_ACC_W_SelfTest(void *handle, LSM303AGR_ACC_ST_t newValue);
-status_t LSM303AGR_ACC_R_SelfTest(void *handle, LSM303AGR_ACC_ST_t *value);
+mems_status_t  LSM303AGR_ACC_W_SelfTest(void *handle, LSM303AGR_ACC_ST_t newValue);
+mems_status_t LSM303AGR_ACC_R_SelfTest(void *handle, LSM303AGR_ACC_ST_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG4
@@ -641,8 +641,8 @@ typedef enum {
 } LSM303AGR_ACC_HR_t;
 
 #define  	LSM303AGR_ACC_HR_MASK  	0x08
-status_t  LSM303AGR_ACC_W_HiRes(void *handle, LSM303AGR_ACC_HR_t newValue);
-status_t LSM303AGR_ACC_R_HiRes(void *handle, LSM303AGR_ACC_HR_t *value);
+mems_status_t  LSM303AGR_ACC_W_HiRes(void *handle, LSM303AGR_ACC_HR_t newValue);
+mems_status_t LSM303AGR_ACC_R_HiRes(void *handle, LSM303AGR_ACC_HR_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG4
@@ -658,8 +658,8 @@ typedef enum {
 } LSM303AGR_ACC_FS_t;
 
 #define  	LSM303AGR_ACC_FS_MASK  	0x30
-status_t  LSM303AGR_ACC_W_FullScale(void *handle, LSM303AGR_ACC_FS_t newValue);
-status_t LSM303AGR_ACC_R_FullScale(void *handle, LSM303AGR_ACC_FS_t *value);
+mems_status_t  LSM303AGR_ACC_W_FullScale(void *handle, LSM303AGR_ACC_FS_t newValue);
+mems_status_t LSM303AGR_ACC_R_FullScale(void *handle, LSM303AGR_ACC_FS_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG4
@@ -673,8 +673,8 @@ typedef enum {
 } LSM303AGR_ACC_BLE_t;
 
 #define  	LSM303AGR_ACC_BLE_MASK  	0x40
-status_t  LSM303AGR_ACC_W_LittleBigEndian(void *handle, LSM303AGR_ACC_BLE_t newValue);
-status_t LSM303AGR_ACC_R_LittleBigEndian(void *handle, LSM303AGR_ACC_BLE_t *value);
+mems_status_t  LSM303AGR_ACC_W_LittleBigEndian(void *handle, LSM303AGR_ACC_BLE_t newValue);
+mems_status_t LSM303AGR_ACC_R_LittleBigEndian(void *handle, LSM303AGR_ACC_BLE_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG4
@@ -688,8 +688,8 @@ typedef enum {
 } LSM303AGR_ACC_BDU_t;
 
 #define  	LSM303AGR_ACC_BDU_MASK  	0x80
-status_t  LSM303AGR_ACC_W_BlockDataUpdate(void *handle, LSM303AGR_ACC_BDU_t newValue);
-status_t LSM303AGR_ACC_R_BlockDataUpdate(void *handle, LSM303AGR_ACC_BDU_t *value);
+mems_status_t  LSM303AGR_ACC_W_BlockDataUpdate(void *handle, LSM303AGR_ACC_BDU_t newValue);
+mems_status_t LSM303AGR_ACC_R_BlockDataUpdate(void *handle, LSM303AGR_ACC_BDU_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG5
@@ -703,8 +703,8 @@ typedef enum {
 } LSM303AGR_ACC_D4D_INT2_t;
 
 #define  	LSM303AGR_ACC_D4D_INT2_MASK  	0x01
-status_t  LSM303AGR_ACC_W_4D_on_INT2(void *handle, LSM303AGR_ACC_D4D_INT2_t newValue);
-status_t LSM303AGR_ACC_R_4D_on_INT2(void *handle, LSM303AGR_ACC_D4D_INT2_t *value);
+mems_status_t  LSM303AGR_ACC_W_4D_on_INT2(void *handle, LSM303AGR_ACC_D4D_INT2_t newValue);
+mems_status_t LSM303AGR_ACC_R_4D_on_INT2(void *handle, LSM303AGR_ACC_D4D_INT2_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG5
@@ -718,8 +718,8 @@ typedef enum {
 } LSM303AGR_ACC_LIR_INT2_t;
 
 #define  	LSM303AGR_ACC_LIR_INT2_MASK  	0x02
-status_t  LSM303AGR_ACC_W_LatchInterrupt_on_INT2(void *handle, LSM303AGR_ACC_LIR_INT2_t newValue);
-status_t LSM303AGR_ACC_R_LatchInterrupt_on_INT2(void *handle, LSM303AGR_ACC_LIR_INT2_t *value);
+mems_status_t  LSM303AGR_ACC_W_LatchInterrupt_on_INT2(void *handle, LSM303AGR_ACC_LIR_INT2_t newValue);
+mems_status_t LSM303AGR_ACC_R_LatchInterrupt_on_INT2(void *handle, LSM303AGR_ACC_LIR_INT2_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG5
@@ -733,8 +733,8 @@ typedef enum {
 } LSM303AGR_ACC_D4D_INT1_t;
 
 #define  	LSM303AGR_ACC_D4D_INT1_MASK  	0x04
-status_t  LSM303AGR_ACC_W_4D_on_INT1(void *handle, LSM303AGR_ACC_D4D_INT1_t newValue);
-status_t LSM303AGR_ACC_R_4D_on_INT1(void *handle, LSM303AGR_ACC_D4D_INT1_t *value);
+mems_status_t  LSM303AGR_ACC_W_4D_on_INT1(void *handle, LSM303AGR_ACC_D4D_INT1_t newValue);
+mems_status_t LSM303AGR_ACC_R_4D_on_INT1(void *handle, LSM303AGR_ACC_D4D_INT1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG5
@@ -748,8 +748,8 @@ typedef enum {
 } LSM303AGR_ACC_LIR_INT1_t;
 
 #define  	LSM303AGR_ACC_LIR_INT1_MASK  	0x08
-status_t  LSM303AGR_ACC_W_LatchInterrupt_on_INT1(void *handle, LSM303AGR_ACC_LIR_INT1_t newValue);
-status_t LSM303AGR_ACC_R_LatchInterrupt_on_INT1(void *handle, LSM303AGR_ACC_LIR_INT1_t *value);
+mems_status_t  LSM303AGR_ACC_W_LatchInterrupt_on_INT1(void *handle, LSM303AGR_ACC_LIR_INT1_t newValue);
+mems_status_t LSM303AGR_ACC_R_LatchInterrupt_on_INT1(void *handle, LSM303AGR_ACC_LIR_INT1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG5
@@ -763,8 +763,8 @@ typedef enum {
 } LSM303AGR_ACC_FIFO_EN_t;
 
 #define  	LSM303AGR_ACC_FIFO_EN_MASK  	0x40
-status_t  LSM303AGR_ACC_W_FIFO_EN(void *handle, LSM303AGR_ACC_FIFO_EN_t newValue);
-status_t LSM303AGR_ACC_R_FIFO_EN(void *handle, LSM303AGR_ACC_FIFO_EN_t *value);
+mems_status_t  LSM303AGR_ACC_W_FIFO_EN(void *handle, LSM303AGR_ACC_FIFO_EN_t newValue);
+mems_status_t LSM303AGR_ACC_R_FIFO_EN(void *handle, LSM303AGR_ACC_FIFO_EN_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG5
@@ -778,8 +778,8 @@ typedef enum {
 } LSM303AGR_ACC_BOOT_t;
 
 #define  	LSM303AGR_ACC_BOOT_MASK  	0x80
-status_t  LSM303AGR_ACC_W_RebootMemory(void *handle, LSM303AGR_ACC_BOOT_t newValue);
-status_t LSM303AGR_ACC_R_RebootMemory(void *handle, LSM303AGR_ACC_BOOT_t *value);
+mems_status_t  LSM303AGR_ACC_W_RebootMemory(void *handle, LSM303AGR_ACC_BOOT_t newValue);
+mems_status_t LSM303AGR_ACC_R_RebootMemory(void *handle, LSM303AGR_ACC_BOOT_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG6
@@ -793,8 +793,8 @@ typedef enum {
 } LSM303AGR_ACC_H_LACTIVE_t;
 
 #define  	LSM303AGR_ACC_H_LACTIVE_MASK  	0x02
-status_t  LSM303AGR_ACC_W_IntActive(void *handle, LSM303AGR_ACC_H_LACTIVE_t newValue);
-status_t LSM303AGR_ACC_R_IntActive(void *handle, LSM303AGR_ACC_H_LACTIVE_t *value);
+mems_status_t  LSM303AGR_ACC_W_IntActive(void *handle, LSM303AGR_ACC_H_LACTIVE_t newValue);
+mems_status_t LSM303AGR_ACC_R_IntActive(void *handle, LSM303AGR_ACC_H_LACTIVE_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG6
@@ -808,8 +808,8 @@ typedef enum {
 } LSM303AGR_ACC_P2_ACT_t;
 
 #define  	LSM303AGR_ACC_P2_ACT_MASK  	0x08
-status_t  LSM303AGR_ACC_W_P2_ACT(void *handle, LSM303AGR_ACC_P2_ACT_t newValue);
-status_t LSM303AGR_ACC_R_P2_ACT(void *handle, LSM303AGR_ACC_P2_ACT_t *value);
+mems_status_t  LSM303AGR_ACC_W_P2_ACT(void *handle, LSM303AGR_ACC_P2_ACT_t newValue);
+mems_status_t LSM303AGR_ACC_R_P2_ACT(void *handle, LSM303AGR_ACC_P2_ACT_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG6
@@ -823,8 +823,8 @@ typedef enum {
 } LSM303AGR_ACC_BOOT_I1_t;
 
 #define  	LSM303AGR_ACC_BOOT_I1_MASK  	0x10
-status_t  LSM303AGR_ACC_W_Boot_on_INT2(void *handle, LSM303AGR_ACC_BOOT_I1_t newValue);
-status_t LSM303AGR_ACC_R_Boot_on_INT2(void *handle, LSM303AGR_ACC_BOOT_I1_t *value);
+mems_status_t  LSM303AGR_ACC_W_Boot_on_INT2(void *handle, LSM303AGR_ACC_BOOT_I1_t newValue);
+mems_status_t LSM303AGR_ACC_R_Boot_on_INT2(void *handle, LSM303AGR_ACC_BOOT_I1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG6
@@ -838,8 +838,8 @@ typedef enum {
 } LSM303AGR_ACC_I2_INT2_t;
 
 #define  	LSM303AGR_ACC_I2_INT2_MASK  	0x20
-status_t  LSM303AGR_ACC_W_I2_on_INT2(void *handle, LSM303AGR_ACC_I2_INT2_t newValue);
-status_t LSM303AGR_ACC_R_I2_on_INT2(void *handle, LSM303AGR_ACC_I2_INT2_t *value);
+mems_status_t  LSM303AGR_ACC_W_I2_on_INT2(void *handle, LSM303AGR_ACC_I2_INT2_t newValue);
+mems_status_t LSM303AGR_ACC_R_I2_on_INT2(void *handle, LSM303AGR_ACC_I2_INT2_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG6
@@ -853,8 +853,8 @@ typedef enum {
 } LSM303AGR_ACC_I2_INT1_t;
 
 #define  	LSM303AGR_ACC_I2_INT1_MASK  	0x40
-status_t  LSM303AGR_ACC_W_I2_on_INT1(void *handle, LSM303AGR_ACC_I2_INT1_t newValue);
-status_t LSM303AGR_ACC_R_I2_on_INT1(void *handle, LSM303AGR_ACC_I2_INT1_t *value);
+mems_status_t  LSM303AGR_ACC_W_I2_on_INT1(void *handle, LSM303AGR_ACC_I2_INT1_t newValue);
+mems_status_t LSM303AGR_ACC_R_I2_on_INT1(void *handle, LSM303AGR_ACC_I2_INT1_t *value);
 
 /*******************************************************************************
 * Register      : CTRL_REG6
@@ -868,8 +868,8 @@ typedef enum {
 } LSM303AGR_ACC_I2_CLICKEN_t;
 
 #define  	LSM303AGR_ACC_I2_CLICKEN_MASK  	0x80
-status_t  LSM303AGR_ACC_W_Click_on_INT2(void *handle, LSM303AGR_ACC_I2_CLICKEN_t newValue);
-status_t LSM303AGR_ACC_R_Click_on_INT2(void *handle, LSM303AGR_ACC_I2_CLICKEN_t *value);
+mems_status_t  LSM303AGR_ACC_W_Click_on_INT2(void *handle, LSM303AGR_ACC_I2_CLICKEN_t newValue);
+mems_status_t LSM303AGR_ACC_R_Click_on_INT2(void *handle, LSM303AGR_ACC_I2_CLICKEN_t *value);
 
 /*******************************************************************************
 * Register      : REFERENCE
@@ -879,8 +879,8 @@ status_t LSM303AGR_ACC_R_Click_on_INT2(void *handle, LSM303AGR_ACC_I2_CLICKEN_t 
 *******************************************************************************/
 #define  	LSM303AGR_ACC_REF_MASK  	0xFF
 #define  	LSM303AGR_ACC_REF_POSITION  	0
-status_t  LSM303AGR_ACC_W_ReferenceVal(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_ReferenceVal(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_ReferenceVal(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_ReferenceVal(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -894,7 +894,7 @@ typedef enum {
 } LSM303AGR_ACC_XDA_t;
 
 #define  	LSM303AGR_ACC_XDA_MASK  	0x01
-status_t LSM303AGR_ACC_R_XDataAvail(void *handle, LSM303AGR_ACC_XDA_t *value);
+mems_status_t LSM303AGR_ACC_R_XDataAvail(void *handle, LSM303AGR_ACC_XDA_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -908,7 +908,7 @@ typedef enum {
 } LSM303AGR_ACC_YDA_t;
 
 #define  	LSM303AGR_ACC_YDA_MASK  	0x02
-status_t LSM303AGR_ACC_R_YDataAvail(void *handle, LSM303AGR_ACC_YDA_t *value);
+mems_status_t LSM303AGR_ACC_R_YDataAvail(void *handle, LSM303AGR_ACC_YDA_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -922,7 +922,7 @@ typedef enum {
 } LSM303AGR_ACC_ZDA_t;
 
 #define  	LSM303AGR_ACC_ZDA_MASK  	0x04
-status_t LSM303AGR_ACC_R_ZDataAvail(void *handle, LSM303AGR_ACC_ZDA_t *value);
+mems_status_t LSM303AGR_ACC_R_ZDataAvail(void *handle, LSM303AGR_ACC_ZDA_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -936,7 +936,7 @@ typedef enum {
 } LSM303AGR_ACC_ZYXDA_t;
 
 #define  	LSM303AGR_ACC_ZYXDA_MASK  	0x08
-status_t LSM303AGR_ACC_R_XYZDataAvail(void *handle, LSM303AGR_ACC_ZYXDA_t *value);
+mems_status_t LSM303AGR_ACC_R_XYZDataAvail(void *handle, LSM303AGR_ACC_ZYXDA_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -950,7 +950,7 @@ typedef enum {
 } LSM303AGR_ACC_XOR_t;
 
 #define  	LSM303AGR_ACC_XOR_MASK  	0x10
-status_t LSM303AGR_ACC_R_XDataOverrun(void *handle, LSM303AGR_ACC_XOR_t *value);
+mems_status_t LSM303AGR_ACC_R_XDataOverrun(void *handle, LSM303AGR_ACC_XOR_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -964,7 +964,7 @@ typedef enum {
 } LSM303AGR_ACC_YOR_t;
 
 #define  	LSM303AGR_ACC_YOR_MASK  	0x20
-status_t LSM303AGR_ACC_R_YDataOverrun(void *handle, LSM303AGR_ACC_YOR_t *value);
+mems_status_t LSM303AGR_ACC_R_YDataOverrun(void *handle, LSM303AGR_ACC_YOR_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -978,7 +978,7 @@ typedef enum {
 } LSM303AGR_ACC_ZOR_t;
 
 #define  	LSM303AGR_ACC_ZOR_MASK  	0x40
-status_t LSM303AGR_ACC_R_ZDataOverrun(void *handle, LSM303AGR_ACC_ZOR_t *value);
+mems_status_t LSM303AGR_ACC_R_ZDataOverrun(void *handle, LSM303AGR_ACC_ZOR_t *value);
 
 /*******************************************************************************
 * Register      : STATUS_REG2
@@ -992,7 +992,7 @@ typedef enum {
 } LSM303AGR_ACC_ZYXOR_t;
 
 #define  	LSM303AGR_ACC_ZYXOR_MASK  	0x80
-status_t LSM303AGR_ACC_R_XYZDataOverrun(void *handle, LSM303AGR_ACC_ZYXOR_t *value);
+mems_status_t LSM303AGR_ACC_R_XYZDataOverrun(void *handle, LSM303AGR_ACC_ZYXOR_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_CTRL_REG
@@ -1002,8 +1002,8 @@ status_t LSM303AGR_ACC_R_XYZDataOverrun(void *handle, LSM303AGR_ACC_ZYXOR_t *val
 *******************************************************************************/
 #define  	LSM303AGR_ACC_FTH_MASK  	0x1F
 #define  	LSM303AGR_ACC_FTH_POSITION  	0
-status_t  LSM303AGR_ACC_W_FifoThreshold(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_FifoThreshold(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_FifoThreshold(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_FifoThreshold(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_CTRL_REG
@@ -1017,8 +1017,8 @@ typedef enum {
 } LSM303AGR_ACC_TR_t;
 
 #define  	LSM303AGR_ACC_TR_MASK  	0x20
-status_t  LSM303AGR_ACC_W_TriggerSel(void *handle, LSM303AGR_ACC_TR_t newValue);
-status_t LSM303AGR_ACC_R_TriggerSel(void *handle, LSM303AGR_ACC_TR_t *value);
+mems_status_t  LSM303AGR_ACC_W_TriggerSel(void *handle, LSM303AGR_ACC_TR_t newValue);
+mems_status_t LSM303AGR_ACC_R_TriggerSel(void *handle, LSM303AGR_ACC_TR_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_CTRL_REG
@@ -1034,8 +1034,8 @@ typedef enum {
 } LSM303AGR_ACC_FM_t;
 
 #define  	LSM303AGR_ACC_FM_MASK  	0xC0
-status_t  LSM303AGR_ACC_W_FifoMode(void *handle, LSM303AGR_ACC_FM_t newValue);
-status_t LSM303AGR_ACC_R_FifoMode(void *handle, LSM303AGR_ACC_FM_t *value);
+mems_status_t  LSM303AGR_ACC_W_FifoMode(void *handle, LSM303AGR_ACC_FM_t newValue);
+mems_status_t LSM303AGR_ACC_R_FifoMode(void *handle, LSM303AGR_ACC_FM_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_SRC_REG
@@ -1045,7 +1045,7 @@ status_t LSM303AGR_ACC_R_FifoMode(void *handle, LSM303AGR_ACC_FM_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_FSS_MASK  	0x1F
 #define  	LSM303AGR_ACC_FSS_POSITION  	0
-status_t LSM303AGR_ACC_R_FifoSamplesAvail(void *handle, u8_t *value);
+mems_status_t LSM303AGR_ACC_R_FifoSamplesAvail(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_SRC_REG
@@ -1059,7 +1059,7 @@ typedef enum {
 } LSM303AGR_ACC_EMPTY_t;
 
 #define  	LSM303AGR_ACC_EMPTY_MASK  	0x20
-status_t LSM303AGR_ACC_R_FifoEmpty(void *handle, LSM303AGR_ACC_EMPTY_t *value);
+mems_status_t LSM303AGR_ACC_R_FifoEmpty(void *handle, LSM303AGR_ACC_EMPTY_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_SRC_REG
@@ -1073,7 +1073,7 @@ typedef enum {
 } LSM303AGR_ACC_OVRN_FIFO_t;
 
 #define  	LSM303AGR_ACC_OVRN_FIFO_MASK  	0x40
-status_t LSM303AGR_ACC_R_FifoOverrun(void *handle, LSM303AGR_ACC_OVRN_FIFO_t *value);
+mems_status_t LSM303AGR_ACC_R_FifoOverrun(void *handle, LSM303AGR_ACC_OVRN_FIFO_t *value);
 
 /*******************************************************************************
 * Register      : FIFO_SRC_REG
@@ -1087,7 +1087,7 @@ typedef enum {
 } LSM303AGR_ACC_WTM_t;
 
 #define  	LSM303AGR_ACC_WTM_MASK  	0x80
-status_t LSM303AGR_ACC_R_WatermarkLevel(void *handle, LSM303AGR_ACC_WTM_t *value);
+mems_status_t LSM303AGR_ACC_R_WatermarkLevel(void *handle, LSM303AGR_ACC_WTM_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1101,10 +1101,10 @@ typedef enum {
 } LSM303AGR_ACC_XLIE_t;
 
 #define  	LSM303AGR_ACC_XLIE_MASK  	0x01
-status_t  LSM303AGR_ACC_W_Int1EnXLo(void *handle, LSM303AGR_ACC_XLIE_t newValue);
-status_t LSM303AGR_ACC_R_Int1EnXLo(void *handle, LSM303AGR_ACC_XLIE_t *value);
-status_t  LSM303AGR_ACC_W_Int2EnXLo(void *handle, LSM303AGR_ACC_XLIE_t newValue);
-status_t LSM303AGR_ACC_R_Int2EnXLo(void *handle, LSM303AGR_ACC_XLIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1EnXLo(void *handle, LSM303AGR_ACC_XLIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1EnXLo(void *handle, LSM303AGR_ACC_XLIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2EnXLo(void *handle, LSM303AGR_ACC_XLIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2EnXLo(void *handle, LSM303AGR_ACC_XLIE_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1118,10 +1118,10 @@ typedef enum {
 } LSM303AGR_ACC_XHIE_t;
 
 #define  	LSM303AGR_ACC_XHIE_MASK  	0x02
-status_t  LSM303AGR_ACC_W_Int1EnXHi(void *handle, LSM303AGR_ACC_XHIE_t newValue);
-status_t LSM303AGR_ACC_R_Int1EnXHi(void *handle, LSM303AGR_ACC_XHIE_t *value);
-status_t  LSM303AGR_ACC_W_Int2EnXHi(void *handle, LSM303AGR_ACC_XHIE_t newValue);
-status_t LSM303AGR_ACC_R_Int2EnXHi(void *handle, LSM303AGR_ACC_XHIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1EnXHi(void *handle, LSM303AGR_ACC_XHIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1EnXHi(void *handle, LSM303AGR_ACC_XHIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2EnXHi(void *handle, LSM303AGR_ACC_XHIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2EnXHi(void *handle, LSM303AGR_ACC_XHIE_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1135,10 +1135,10 @@ typedef enum {
 } LSM303AGR_ACC_YLIE_t;
 
 #define  	LSM303AGR_ACC_YLIE_MASK  	0x04
-status_t  LSM303AGR_ACC_W_Int1EnYLo(void *handle, LSM303AGR_ACC_YLIE_t newValue);
-status_t LSM303AGR_ACC_R_Int1EnYLo(void *handle, LSM303AGR_ACC_YLIE_t *value);
-status_t  LSM303AGR_ACC_W_Int2EnYLo(void *handle, LSM303AGR_ACC_YLIE_t newValue);
-status_t LSM303AGR_ACC_R_Int2EnYLo(void *handle, LSM303AGR_ACC_YLIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1EnYLo(void *handle, LSM303AGR_ACC_YLIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1EnYLo(void *handle, LSM303AGR_ACC_YLIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2EnYLo(void *handle, LSM303AGR_ACC_YLIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2EnYLo(void *handle, LSM303AGR_ACC_YLIE_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1152,10 +1152,10 @@ typedef enum {
 } LSM303AGR_ACC_YHIE_t;
 
 #define  	LSM303AGR_ACC_YHIE_MASK  	0x08
-status_t  LSM303AGR_ACC_W_Int1EnYHi(void *handle, LSM303AGR_ACC_YHIE_t newValue);
-status_t LSM303AGR_ACC_R_Int1EnYHi(void *handle, LSM303AGR_ACC_YHIE_t *value);
-status_t  LSM303AGR_ACC_W_Int2EnYHi(void *handle, LSM303AGR_ACC_YHIE_t newValue);
-status_t LSM303AGR_ACC_R_Int2EnYHi(void *handle, LSM303AGR_ACC_YHIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1EnYHi(void *handle, LSM303AGR_ACC_YHIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1EnYHi(void *handle, LSM303AGR_ACC_YHIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2EnYHi(void *handle, LSM303AGR_ACC_YHIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2EnYHi(void *handle, LSM303AGR_ACC_YHIE_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1169,10 +1169,10 @@ typedef enum {
 } LSM303AGR_ACC_ZLIE_t;
 
 #define  	LSM303AGR_ACC_ZLIE_MASK  	0x10
-status_t  LSM303AGR_ACC_W_Int1EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t newValue);
-status_t LSM303AGR_ACC_R_Int1EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t *value);
-status_t  LSM303AGR_ACC_W_Int2EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t newValue);
-status_t LSM303AGR_ACC_R_Int2EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2EnZLo(void *handle, LSM303AGR_ACC_ZLIE_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1186,10 +1186,10 @@ typedef enum {
 } LSM303AGR_ACC_ZHIE_t;
 
 #define  	LSM303AGR_ACC_ZHIE_MASK  	0x20
-status_t  LSM303AGR_ACC_W_Int1EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t newValue);
-status_t LSM303AGR_ACC_R_Int1EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t *value);
-status_t  LSM303AGR_ACC_W_Int2EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t newValue);
-status_t LSM303AGR_ACC_R_Int2EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2EnZHi(void *handle, LSM303AGR_ACC_ZHIE_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1203,10 +1203,10 @@ typedef enum {
 } LSM303AGR_ACC_6D_t;
 
 #define  	LSM303AGR_ACC_6D_MASK  	0x40
-status_t  LSM303AGR_ACC_W_Int1_6D(void *handle, LSM303AGR_ACC_6D_t newValue);
-status_t LSM303AGR_ACC_R_Int1_6D(void *handle, LSM303AGR_ACC_6D_t *value);
-status_t  LSM303AGR_ACC_W_Int2_6D(void *handle, LSM303AGR_ACC_6D_t newValue);
-status_t LSM303AGR_ACC_R_Int2_6D(void *handle, LSM303AGR_ACC_6D_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1_6D(void *handle, LSM303AGR_ACC_6D_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1_6D(void *handle, LSM303AGR_ACC_6D_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2_6D(void *handle, LSM303AGR_ACC_6D_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2_6D(void *handle, LSM303AGR_ACC_6D_t *value);
 
 /*******************************************************************************
 * Register      : INT1_CFG/INT2_CFG
@@ -1220,10 +1220,10 @@ typedef enum {
 } LSM303AGR_ACC_AOI_t;
 
 #define  	LSM303AGR_ACC_AOI_MASK  	0x80
-status_t  LSM303AGR_ACC_W_Int1_AOI(void *handle, LSM303AGR_ACC_AOI_t newValue);
-status_t LSM303AGR_ACC_R_Int1_AOI(void *handle, LSM303AGR_ACC_AOI_t *value);
-status_t  LSM303AGR_ACC_W_Int2_AOI(void *handle, LSM303AGR_ACC_AOI_t newValue);
-status_t LSM303AGR_ACC_R_Int2_AOI(void *handle, LSM303AGR_ACC_AOI_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1_AOI(void *handle, LSM303AGR_ACC_AOI_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1_AOI(void *handle, LSM303AGR_ACC_AOI_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2_AOI(void *handle, LSM303AGR_ACC_AOI_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2_AOI(void *handle, LSM303AGR_ACC_AOI_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1237,8 +1237,8 @@ typedef enum {
 } LSM303AGR_ACC_XL_t;
 
 #define  	LSM303AGR_ACC_XL_MASK  	0x01
-status_t LSM303AGR_ACC_R_Int1_Xlo(void *handle, LSM303AGR_ACC_XL_t *value);
-status_t LSM303AGR_ACC_R_Int2_Xlo(void *handle, LSM303AGR_ACC_XL_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_Xlo(void *handle, LSM303AGR_ACC_XL_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_Xlo(void *handle, LSM303AGR_ACC_XL_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1252,8 +1252,8 @@ typedef enum {
 } LSM303AGR_ACC_XH_t;
 
 #define  	LSM303AGR_ACC_XH_MASK  	0x02
-status_t LSM303AGR_ACC_R_Int1_XHi(void *handle, LSM303AGR_ACC_XH_t *value);
-status_t LSM303AGR_ACC_R_Int2_XHi(void *handle, LSM303AGR_ACC_XH_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_XHi(void *handle, LSM303AGR_ACC_XH_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_XHi(void *handle, LSM303AGR_ACC_XH_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1267,8 +1267,8 @@ typedef enum {
 } LSM303AGR_ACC_YL_t;
 
 #define  	LSM303AGR_ACC_YL_MASK  	0x04
-status_t LSM303AGR_ACC_R_Int1_YLo(void *handle, LSM303AGR_ACC_YL_t *value);
-status_t LSM303AGR_ACC_R_Int2_YLo(void *handle, LSM303AGR_ACC_YL_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_YLo(void *handle, LSM303AGR_ACC_YL_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_YLo(void *handle, LSM303AGR_ACC_YL_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1282,8 +1282,8 @@ typedef enum {
 } LSM303AGR_ACC_YH_t;
 
 #define  	LSM303AGR_ACC_YH_MASK  	0x08
-status_t LSM303AGR_ACC_R_Int1_YHi(void *handle, LSM303AGR_ACC_YH_t *value);
-status_t LSM303AGR_ACC_R_Int2_YHi(void *handle, LSM303AGR_ACC_YH_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_YHi(void *handle, LSM303AGR_ACC_YH_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_YHi(void *handle, LSM303AGR_ACC_YH_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1297,8 +1297,8 @@ typedef enum {
 } LSM303AGR_ACC_ZL_t;
 
 #define  	LSM303AGR_ACC_ZL_MASK  	0x10
-status_t LSM303AGR_ACC_R_Int1_Zlo(void *handle, LSM303AGR_ACC_ZL_t *value);
-status_t LSM303AGR_ACC_R_Int2_Zlo(void *handle, LSM303AGR_ACC_ZL_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_Zlo(void *handle, LSM303AGR_ACC_ZL_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_Zlo(void *handle, LSM303AGR_ACC_ZL_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1312,8 +1312,8 @@ typedef enum {
 } LSM303AGR_ACC_ZH_t;
 
 #define  	LSM303AGR_ACC_ZH_MASK  	0x20
-status_t LSM303AGR_ACC_R_Int1_ZHi(void *handle, LSM303AGR_ACC_ZH_t *value);
-status_t LSM303AGR_ACC_R_Int2_ZHi(void *handle, LSM303AGR_ACC_ZH_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_ZHi(void *handle, LSM303AGR_ACC_ZH_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_ZHi(void *handle, LSM303AGR_ACC_ZH_t *value);
 
 /*******************************************************************************
 * Register      : INT1_SOURCE/INT2_SOURCE
@@ -1327,8 +1327,8 @@ typedef enum {
 } LSM303AGR_ACC_IA_t;
 
 #define  	LSM303AGR_ACC_IA_MASK  	0x40
-status_t LSM303AGR_ACC_R_Int1_IA(void *handle, LSM303AGR_ACC_IA_t *value);
-status_t LSM303AGR_ACC_R_Int2_IA(void *handle, LSM303AGR_ACC_IA_t *value);
+mems_status_t LSM303AGR_ACC_R_Int1_IA(void *handle, LSM303AGR_ACC_IA_t *value);
+mems_status_t LSM303AGR_ACC_R_Int2_IA(void *handle, LSM303AGR_ACC_IA_t *value);
 
 /*******************************************************************************
 * Register      : INT1_THS/INT2_THS
@@ -1338,10 +1338,10 @@ status_t LSM303AGR_ACC_R_Int2_IA(void *handle, LSM303AGR_ACC_IA_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_THS_MASK  	0x7F
 #define  	LSM303AGR_ACC_THS_POSITION  	0
-status_t  LSM303AGR_ACC_W_Int1_Threshold(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_Int1_Threshold(void *handle, u8_t *value);
-status_t  LSM303AGR_ACC_W_Int2_Threshold(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_Int2_Threshold(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1_Threshold(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1_Threshold(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2_Threshold(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2_Threshold(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : INT1_DURATION/INT2_DURATION
@@ -1351,10 +1351,10 @@ status_t LSM303AGR_ACC_R_Int2_Threshold(void *handle, u8_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_D_MASK  	0x7F
 #define  	LSM303AGR_ACC_D_POSITION  	0
-status_t  LSM303AGR_ACC_W_Int1_Duration(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_Int1_Duration(void *handle, u8_t *value);
-status_t  LSM303AGR_ACC_W_Int2_Duration(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_Int2_Duration(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int1_Duration(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int1_Duration(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_Int2_Duration(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_Int2_Duration(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG
@@ -1368,8 +1368,8 @@ typedef enum {
 } LSM303AGR_ACC_XS_t;
 
 #define  	LSM303AGR_ACC_XS_MASK  	0x01
-status_t  LSM303AGR_ACC_W_XSingle(void *handle, LSM303AGR_ACC_XS_t newValue);
-status_t LSM303AGR_ACC_R_XSingle(void *handle, LSM303AGR_ACC_XS_t *value);
+mems_status_t  LSM303AGR_ACC_W_XSingle(void *handle, LSM303AGR_ACC_XS_t newValue);
+mems_status_t LSM303AGR_ACC_R_XSingle(void *handle, LSM303AGR_ACC_XS_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG
@@ -1383,8 +1383,8 @@ typedef enum {
 } LSM303AGR_ACC_XD_t;
 
 #define  	LSM303AGR_ACC_XD_MASK  	0x02
-status_t  LSM303AGR_ACC_W_XDouble(void *handle, LSM303AGR_ACC_XD_t newValue);
-status_t LSM303AGR_ACC_R_XDouble(void *handle, LSM303AGR_ACC_XD_t *value);
+mems_status_t  LSM303AGR_ACC_W_XDouble(void *handle, LSM303AGR_ACC_XD_t newValue);
+mems_status_t LSM303AGR_ACC_R_XDouble(void *handle, LSM303AGR_ACC_XD_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG
@@ -1398,8 +1398,8 @@ typedef enum {
 } LSM303AGR_ACC_YS_t;
 
 #define  	LSM303AGR_ACC_YS_MASK  	0x04
-status_t  LSM303AGR_ACC_W_YSingle(void *handle, LSM303AGR_ACC_YS_t newValue);
-status_t LSM303AGR_ACC_R_YSingle(void *handle, LSM303AGR_ACC_YS_t *value);
+mems_status_t  LSM303AGR_ACC_W_YSingle(void *handle, LSM303AGR_ACC_YS_t newValue);
+mems_status_t LSM303AGR_ACC_R_YSingle(void *handle, LSM303AGR_ACC_YS_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG
@@ -1413,8 +1413,8 @@ typedef enum {
 } LSM303AGR_ACC_YD_t;
 
 #define  	LSM303AGR_ACC_YD_MASK  	0x08
-status_t  LSM303AGR_ACC_W_YDouble(void *handle, LSM303AGR_ACC_YD_t newValue);
-status_t LSM303AGR_ACC_R_YDouble(void *handle, LSM303AGR_ACC_YD_t *value);
+mems_status_t  LSM303AGR_ACC_W_YDouble(void *handle, LSM303AGR_ACC_YD_t newValue);
+mems_status_t LSM303AGR_ACC_R_YDouble(void *handle, LSM303AGR_ACC_YD_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG
@@ -1428,8 +1428,8 @@ typedef enum {
 } LSM303AGR_ACC_ZS_t;
 
 #define  	LSM303AGR_ACC_ZS_MASK  	0x10
-status_t  LSM303AGR_ACC_W_ZSingle(void *handle, LSM303AGR_ACC_ZS_t newValue);
-status_t LSM303AGR_ACC_R_ZSingle(void *handle, LSM303AGR_ACC_ZS_t *value);
+mems_status_t  LSM303AGR_ACC_W_ZSingle(void *handle, LSM303AGR_ACC_ZS_t newValue);
+mems_status_t LSM303AGR_ACC_R_ZSingle(void *handle, LSM303AGR_ACC_ZS_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG
@@ -1443,8 +1443,8 @@ typedef enum {
 } LSM303AGR_ACC_ZD_t;
 
 #define  	LSM303AGR_ACC_ZD_MASK  	0x20
-status_t  LSM303AGR_ACC_W_ZDouble(void *handle, LSM303AGR_ACC_ZD_t newValue);
-status_t LSM303AGR_ACC_R_ZDouble(void *handle, LSM303AGR_ACC_ZD_t *value);
+mems_status_t  LSM303AGR_ACC_W_ZDouble(void *handle, LSM303AGR_ACC_ZD_t newValue);
+mems_status_t LSM303AGR_ACC_R_ZDouble(void *handle, LSM303AGR_ACC_ZD_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1458,7 +1458,7 @@ typedef enum {
 } LSM303AGR_ACC_X_t;
 
 #define  	LSM303AGR_ACC_X_MASK  	0x01
-status_t LSM303AGR_ACC_R_ClickX(void *handle, LSM303AGR_ACC_X_t *value);
+mems_status_t LSM303AGR_ACC_R_ClickX(void *handle, LSM303AGR_ACC_X_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1472,7 +1472,7 @@ typedef enum {
 } LSM303AGR_ACC_Y_t;
 
 #define  	LSM303AGR_ACC_Y_MASK  	0x02
-status_t LSM303AGR_ACC_R_ClickY(void *handle, LSM303AGR_ACC_Y_t *value);
+mems_status_t LSM303AGR_ACC_R_ClickY(void *handle, LSM303AGR_ACC_Y_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1486,7 +1486,7 @@ typedef enum {
 } LSM303AGR_ACC_Z_t;
 
 #define  	LSM303AGR_ACC_Z_MASK  	0x04
-status_t LSM303AGR_ACC_R_ClickZ(void *handle, LSM303AGR_ACC_Z_t *value);
+mems_status_t LSM303AGR_ACC_R_ClickZ(void *handle, LSM303AGR_ACC_Z_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1500,7 +1500,7 @@ typedef enum {
 } LSM303AGR_ACC_SIGN_t;
 
 #define  	LSM303AGR_ACC_SIGN_MASK  	0x08
-status_t LSM303AGR_ACC_R_ClickSign(void *handle, LSM303AGR_ACC_SIGN_t *value);
+mems_status_t LSM303AGR_ACC_R_ClickSign(void *handle, LSM303AGR_ACC_SIGN_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1514,7 +1514,7 @@ typedef enum {
 } LSM303AGR_ACC_SCLICK_t;
 
 #define  	LSM303AGR_ACC_SCLICK_MASK  	0x10
-status_t LSM303AGR_ACC_R_SingleCLICK(void *handle, LSM303AGR_ACC_SCLICK_t *value);
+mems_status_t LSM303AGR_ACC_R_SingleCLICK(void *handle, LSM303AGR_ACC_SCLICK_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1528,7 +1528,7 @@ typedef enum {
 } LSM303AGR_ACC_DCLICK_t;
 
 #define  	LSM303AGR_ACC_DCLICK_MASK  	0x20
-status_t LSM303AGR_ACC_R_DoubleCLICK(void *handle, LSM303AGR_ACC_DCLICK_t *value);
+mems_status_t LSM303AGR_ACC_R_DoubleCLICK(void *handle, LSM303AGR_ACC_DCLICK_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_SRC
@@ -1542,7 +1542,7 @@ typedef enum {
 } LSM303AGR_ACC_CLICK_IA_t;
 
 #define  	LSM303AGR_ACC_IA_MASK  	0x40
-status_t LSM303AGR_ACC_R_CLICK_IA(void *handle, LSM303AGR_ACC_CLICK_IA_t *value);
+mems_status_t LSM303AGR_ACC_R_CLICK_IA(void *handle, LSM303AGR_ACC_CLICK_IA_t *value);
 
 /*******************************************************************************
 * Register      : CLICK_THS
@@ -1552,8 +1552,8 @@ status_t LSM303AGR_ACC_R_CLICK_IA(void *handle, LSM303AGR_ACC_CLICK_IA_t *value)
 *******************************************************************************/
 #define  	LSM303AGR_ACC_THS_MASK  	0x7F
 #define  	LSM303AGR_ACC_THS_POSITION  	0
-status_t  LSM303AGR_ACC_W_ClickThreshold(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_ClickThreshold(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_ClickThreshold(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_ClickThreshold(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : TIME_LIMIT
@@ -1563,8 +1563,8 @@ status_t LSM303AGR_ACC_R_ClickThreshold(void *handle, u8_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_TLI_MASK  	0x7F
 #define  	LSM303AGR_ACC_TLI_POSITION  	0
-status_t  LSM303AGR_ACC_W_ClickTimeLimit(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_ClickTimeLimit(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_ClickTimeLimit(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_ClickTimeLimit(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : TIME_LATENCY
@@ -1574,8 +1574,8 @@ status_t LSM303AGR_ACC_R_ClickTimeLimit(void *handle, u8_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_TLA_MASK  	0xFF
 #define  	LSM303AGR_ACC_TLA_POSITION  	0
-status_t  LSM303AGR_ACC_W_ClickTimeLatency(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_ClickTimeLatency(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_ClickTimeLatency(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_ClickTimeLatency(void *handle, u8_t *value);
 
 /*******************************************************************************
 * Register      : TIME_WINDOW
@@ -1585,21 +1585,21 @@ status_t LSM303AGR_ACC_R_ClickTimeLatency(void *handle, u8_t *value);
 *******************************************************************************/
 #define  	LSM303AGR_ACC_TW_MASK  	0xFF
 #define  	LSM303AGR_ACC_TW_POSITION  	0
-status_t  LSM303AGR_ACC_W_ClickTimeWindow(void *handle, u8_t newValue);
-status_t LSM303AGR_ACC_R_ClickTimeWindow(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_ClickTimeWindow(void *handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_ClickTimeWindow(void *handle, u8_t *value);
 /*******************************************************************************
 * Register      : <REGISTER_L> - <REGISTER_H>
 * Output Type   : Voltage_ADC
 * Permission    : RO 
 *******************************************************************************/
-status_t LSM303AGR_ACC_Get_Voltage_ADC(void *handle, u8_t *buff); 
+mems_status_t LSM303AGR_ACC_Get_Voltage_ADC(void *handle, u8_t *buff); 
 /*******************************************************************************
 * Register      : <REGISTER_L> - <REGISTER_H>
 * Output Type   : Acceleration
 * Permission    : RO 
 *******************************************************************************/
-status_t LSM303AGR_ACC_Get_Raw_Acceleration(void *handle, u8_t *buff); 
-status_t LSM303AGR_ACC_Get_Acceleration(void *handle, int *buff);
+mems_status_t LSM303AGR_ACC_Get_Raw_Acceleration(void *handle, u8_t *buff); 
+mems_status_t LSM303AGR_ACC_Get_Acceleration(void *handle, int *buff);
 
 #ifdef __cplusplus
 }
