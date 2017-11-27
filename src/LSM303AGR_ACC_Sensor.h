@@ -45,7 +45,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "Wire.h"
-#include "LSM303AGR_ACC_driver.h"
+#include "LSM303AGR_ACC_Driver.h"
 
 /* Defines -------------------------------------------------------------------*/
 #define LSM303AGR_ACC_SENSITIVITY_FOR_FS_2G_NORMAL_MODE               3.900f  /**< Sensitivity value for 2 g full scale and normal mode [mg/LSB] */
@@ -143,19 +143,19 @@ class LSM303AGR_ACC_Sensor
 
   private:
     LSM303AGR_ACC_StatusTypeDef SetODR_When_Enabled(float odr);
-	LSM303AGR_ACC_StatusTypeDef SetODR_When_Disabled(float odr);
-	LSM303AGR_ACC_StatusTypeDef GetSensitivity_Normal_Mode( float *sensitivity );
+    LSM303AGR_ACC_StatusTypeDef SetODR_When_Disabled(float odr);
+    LSM303AGR_ACC_StatusTypeDef GetSensitivity_Normal_Mode( float *sensitivity );
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_LP_Mode( float *sensitivity );
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_HR_Mode( float *sensitivity );
-	
-	/* Configuration */
-    uint8_t address;
 
     /* Helper classes. */
     TwoWire *dev_i2c;
-	
-	uint8_t isEnabled;
-	float Last_ODR;
+
+    /* Configuration */
+    uint8_t address;
+
+    uint8_t isEnabled;
+    float Last_ODR;
 };
 
 #ifdef __cplusplus

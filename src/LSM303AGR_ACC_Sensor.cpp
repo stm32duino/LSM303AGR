@@ -41,7 +41,6 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "LSM303AGR_ACC_Sensor.h"
-#include "LSM303AGR_ACC_driver.h"
 
 
 /* Class Implementation ------------------------------------------------------*/
