@@ -45,7 +45,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "Wire.h"
-#include "LSM303AGR_MAG_driver.h"
+#include "LSM303AGR_MAG_Driver.h"
 
 /* Typedefs ------------------------------------------------------------------*/
 typedef enum
@@ -127,11 +127,11 @@ class LSM303AGR_MAG_Sensor
     }
 
   private:
-	/* Configuration */
-    uint8_t address;
-
     /* Helper classes. */
     TwoWire *dev_i2c;
+
+    /* Configuration */
+    uint8_t address;
 };
 
 #ifdef __cplusplus

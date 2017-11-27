@@ -41,7 +41,6 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "LSM303AGR_MAG_Sensor.h"
-#include "LSM303AGR_MAG_driver.h"
 
 
 /* Class Implementation ------------------------------------------------------*/

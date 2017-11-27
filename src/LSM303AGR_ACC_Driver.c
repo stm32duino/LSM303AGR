@@ -36,7 +36,7 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "LSM303AGR_ACC_driver.h"
+#include "LSM303AGR_ACC_Driver.h"
 
 /* Imported function prototypes ----------------------------------------------*/
 extern uint8_t LSM303AGR_ACC_IO_Write(void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite);
