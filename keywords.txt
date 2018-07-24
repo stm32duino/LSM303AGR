@@ -6,8 +6,8 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-LSM303AGR_ACC_Sensor	KEYWORD1	LSM303AGR_ACC_Sensor
-LSM303AGR_MAG_Sensor	KEYWORD1	LSM303AGR_MAG_Sensor
+LSM303AGR_ACC_Sensor	KEYWORD1
+LSM303AGR_MAG_Sensor	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
