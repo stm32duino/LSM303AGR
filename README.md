@@ -27,5 +27,5 @@ The access to the sensor values is done as explained below:
 You can find the source files at  
 https://github.com/stm32duino/LSM303AGR
 
-The LIS3MDL datasheet is available at  
+The LSM303AGR datasheet is available at  
 http://www.st.com/content/st_com/en/products/mems-and-sensors/e-compasses/lsm303agr.html
