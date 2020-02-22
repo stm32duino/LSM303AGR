@@ -49,54 +49,9 @@
  * @param i2c object of an helper class which handles the I2C peripheral
  * @param address the address of the component's instance
  */
-LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : dev_i2c(i2c)
+LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : LSM303AGR_ACC_Sensor(i2c, LSM303AGR_ACC_I2C_ADDRESS)
 {
-  address = LSM303AGR_ACC_I2C_ADDRESS;
   
-  /* Enable BDU */
-  if ( LSM303AGR_ACC_W_BlockDataUpdate( (void *)this, LSM303AGR_ACC_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* FIFO mode selection */
-  if ( LSM303AGR_ACC_W_FifoMode( (void *)this, LSM303AGR_ACC_FM_BYPASS ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Output data rate selection - power down. */
-  if ( LSM303AGR_ACC_W_ODR( (void *)this, LSM303AGR_ACC_ODR_DO_PWR_DOWN ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Full scale selection. */
-  if ( SetFS( 2.0f ) == LSM303AGR_ACC_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  /* Enable axes. */
-  if ( LSM303AGR_ACC_W_XEN( (void *)this, LSM303AGR_ACC_XEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_YEN ( (void *)this, LSM303AGR_ACC_YEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_ZEN ( (void *)this, LSM303AGR_ACC_ZEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Select default output data rate. */
-  Last_ODR = 100.0f;
-  
-  isEnabled = 0;
 };
 
 /** Constructor
@@ -105,51 +60,57 @@ LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : dev_i2c(i2c)
  */
 LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c, uint8_t address) : dev_i2c(i2c), address(address)
 {
-  /* Enable BDU */
-  if ( LSM303AGR_ACC_W_BlockDataUpdate( (void *)this, LSM303AGR_ACC_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* FIFO mode selection */
-  if ( LSM303AGR_ACC_W_FifoMode( (void *)this, LSM303AGR_ACC_FM_BYPASS ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Output data rate selection - power down. */
-  if ( LSM303AGR_ACC_W_ODR( (void *)this, LSM303AGR_ACC_ODR_DO_PWR_DOWN ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Full scale selection. */
-  if ( SetFS( 2.0f ) == LSM303AGR_ACC_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  /* Enable axes. */
-  if ( LSM303AGR_ACC_W_XEN( (void *)this, LSM303AGR_ACC_XEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_YEN ( (void *)this, LSM303AGR_ACC_YEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_ZEN ( (void *)this, LSM303AGR_ACC_ZEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Select default output data rate. */
-  Last_ODR = 100.0f;
-  
-  isEnabled = 0;
-};
+    
+}
+
+void LSM303AGR_ACC_Sensor::Init()
+{
+    /* Enable BDU */
+    if (LSM303AGR_ACC_W_BlockDataUpdate((void*)this, LSM303AGR_ACC_BDU_ENABLED) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    /* FIFO mode selection */
+    if (LSM303AGR_ACC_W_FifoMode((void*)this, LSM303AGR_ACC_FM_BYPASS) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    /* Output data rate selection - power down. */
+    if (LSM303AGR_ACC_W_ODR((void*)this, LSM303AGR_ACC_ODR_DO_PWR_DOWN) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    /* Full scale selection. */
+    if (SetFS(2.0f) == LSM303AGR_ACC_STATUS_ERROR)
+    {
+        return;
+    }
+
+    /* Enable axes. */
+    if (LSM303AGR_ACC_W_XEN((void*)this, LSM303AGR_ACC_XEN_ENABLED) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    if (LSM303AGR_ACC_W_YEN((void*)this, LSM303AGR_ACC_YEN_ENABLED) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    if (LSM303AGR_ACC_W_ZEN((void*)this, LSM303AGR_ACC_ZEN_ENABLED) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    /* Select default output data rate. */
+    Last_ODR = 100.0f;
+
+    isEnabled = 0;
+}
+;
 
 /**
  * @brief  Enable LSM303AGR Accelerator

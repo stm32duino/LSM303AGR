@@ -52,8 +52,8 @@
 #endif
 
 // Components.
-LSM303AGR_ACC_Sensor *Acc;
-LSM303AGR_MAG_Sensor *Mag;
+LSM303AGR_ACC_Sensor Acc(&DEV_I2C);
+LSM303AGR_MAG_Sensor Mag(&DEV_I2C);
 
 void setup() {
   // Led.
@@ -66,10 +66,10 @@ void setup() {
   DEV_I2C.begin();
 
   // Initlialize components.
-  Acc = new LSM303AGR_ACC_Sensor(&DEV_I2C);
-  Acc->Enable();
-  Mag = new LSM303AGR_MAG_Sensor(&DEV_I2C);
-  Mag->Enable();
+  Acc.Init();
+  Acc.Enable();
+  Mag.Init();
+  Mag.Enable();
 }
 
 void loop() {
@@ -81,11 +81,11 @@ void loop() {
 
   // Read accelerometer LSM303AGR.
   int32_t accelerometer[3];
-  Acc->GetAxes(accelerometer);
+  Acc.GetAxes(accelerometer);
   
   // Read magnetometer LSM303AGR.
   int32_t magnetometer[3];
-  Mag->GetAxes(magnetometer);
+  Mag.GetAxes(magnetometer);
 
   // Output data.
   SerialPort.print("| Acc[mg]: ");
