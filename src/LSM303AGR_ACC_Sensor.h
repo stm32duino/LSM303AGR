@@ -45,7 +45,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "Wire.h"
-#include "LSM303AGR_ACC_Driver.h"
+
 
 /* Defines -------------------------------------------------------------------*/
 #define LSM303AGR_ACC_SENSITIVITY_FOR_FS_2G_NORMAL_MODE               3.900f  /**< Sensitivity value for 2 g full scale and normal mode [mg/LSB] */
