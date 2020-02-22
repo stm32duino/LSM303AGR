@@ -97,6 +97,9 @@ class LSM303AGR_ACC_Sensor
 	LSM303AGR_ACC_StatusTypeDef ReadReg         (uint8_t reg, uint8_t *data);
 	LSM303AGR_ACC_StatusTypeDef WriteReg        (uint8_t reg, uint8_t data);
 
+    LSM303AGR_ACC_StatusTypeDef EnableSelfTest  (uint8_t self_test = 0);
+    LSM303AGR_ACC_StatusTypeDef DisableSelfTest (void);
+
 	/**
      * @brief Utility function to read data.
      * @param  pBuffer: pointer to data to be read.

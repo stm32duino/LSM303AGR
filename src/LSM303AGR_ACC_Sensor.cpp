@@ -600,6 +600,42 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::WriteReg( uint8_t reg, uint8_t
   return LSM303AGR_ACC_STATUS_OK;
 }
 
+/**
+ * @brief Enable LSM303 Embedded Self Test 
+ * @param self_test 0 for Self-Test 0, otherwise Self-Test 1
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableSelfTest(uint8_t self_test)
+{
+    // 4.2.4 Accelerometer self - test
+    // The self-test allows the user to check the sensor functionality without moving it.When the
+    // self-test is enabled, an actuation force is applied to the sensor, simulating a definite input
+    // acceleration.In this case the sensor outputs will exhibit a change in their DC levels which
+    // are related to the selected full scale through the device sensitivity.When the self-test is
+    // activated, the device output level is given by the algebraic sum of the signals produced by
+    // the acceleration acting on the sensor and by the electrostatic test-force.
+    
+    if (LSM303AGR_ACC_W_SelfTest(this, self_test == 0 ? LSM303AGR_ACC_ST_SELF_TEST_0 : LSM303AGR_ACC_ST_SELF_TEST_1) == MEMS_ERROR)    
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Disable LSM303 Embedded Self Test
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableSelfTest(void)
+{    
+    if (LSM303AGR_ACC_W_SelfTest(this, LSM303AGR_ACC_ST_DISABLED))
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {
   return ((LSM303AGR_ACC_Sensor *)handle)->IO_Write(pBuffer, WriteAddr, nBytesToWrite);
