@@ -635,6 +635,52 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableSelfTest(void)
     return LSM303AGR_ACC_STATUS_OK;
 }
 
+/**
+ * @brief Enable On-board Temperature Sensor
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableTemperatureSensor(void)
+{
+    if(LSM303AGR_ACC_W_TEMP_EN_bits((void*)this, LSM303AGR_ACC_TEMP_EN_ENABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Disable On-board Temperature Sensor
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableTemperatureSensor(void)
+{
+    if (LSM303AGR_ACC_W_TEMP_EN_bits((void*)this, LSM303AGR_ACC_TEMP_EN_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Read the On-board Temperature Sensor
+ * @param temperature Pointer to a 16-bit value to read into
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(uint16_t* temperature)
+{
+    uint8_t* low = (uint8_t*) temperature;
+    uint8_t* high = low + 1;
+
+    if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_L, low) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_H, high) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {
   return ((LSM303AGR_ACC_Sensor *)handle)->IO_Write(pBuffer, WriteAddr, nBytesToWrite);
