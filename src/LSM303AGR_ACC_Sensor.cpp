@@ -672,6 +672,10 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(uint16_t* tempe
     uint8_t* low = (uint8_t*) temperature;
     uint8_t* high = low + 1;
 
+    LSM303AGR_ACC_1DA_t value;
+    if(LSM303AGR_ACC_R_x_data_avail((void*)this, &value) == MEMS_ERROR || value != LSM303AGR_ACC_1DA_AVAILABLE)
+        return LSM303AGR_ACC_STATUS_TIMEOUT;
+
     if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_L, low) == MEMS_ERROR)
         return LSM303AGR_ACC_STATUS_ERROR;
 
