@@ -3,7 +3,7 @@ Arduino library to support the LSM303AGR 3D accelerometer and 3D magnetometer
 
 ## API
 
-This sensor uses I2C to communicate. It is then required to create a TwoWire interface before accessing to the sensors:  
+This sensor uses I2C to communicate. It is then required to create a TwoWire interface before accessing the sensors:  
 
     dev_i2c = new TwoWire(I2C2_SDA, I2C2_SCL);  
     dev_i2c->begin();  
