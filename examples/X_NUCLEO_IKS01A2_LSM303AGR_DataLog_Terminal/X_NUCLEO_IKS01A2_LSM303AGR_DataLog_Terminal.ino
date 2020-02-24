@@ -68,6 +68,7 @@ void setup() {
   // Initlialize components.
   Acc = new LSM303AGR_ACC_Sensor(&DEV_I2C);
   Acc->Enable();
+  Acc->EnableTemperatureSensor();
   Mag = new LSM303AGR_MAG_Sensor(&DEV_I2C);
   Mag->Enable();
 }
@@ -82,6 +83,10 @@ void loop() {
   // Read accelerometer LSM303AGR.
   int32_t accelerometer[3];
   Acc->GetAxes(accelerometer);
+
+  // Read temperature LSM303AGR.
+  float temperature;
+  Acc->GetTemperature(&temperature);
   
   // Read magnetometer LSM303AGR.
   int32_t magnetometer[3];
@@ -100,5 +105,7 @@ void loop() {
   SerialPort.print(magnetometer[1]);
   SerialPort.print(" ");
   SerialPort.print(magnetometer[2]);
+  SerialPort.print(" | Temp[C]: ");
+  SerialPort.print(temperature, 2);
   SerialPort.println(" |");
 }
