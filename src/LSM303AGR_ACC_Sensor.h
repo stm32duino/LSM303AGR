@@ -71,6 +71,19 @@ typedef enum
   LSM303AGR_ACC_STATUS_NOT_IMPLEMENTED
 } LSM303AGR_ACC_StatusTypeDef;
 
+typedef enum 
+{
+    LSM303AGR_ACC_INTERRUPT_ACTIVE  = 0x40,
+    LSM303AGR_ACC_HIGH_Z            = 0x20,
+    LSM303AGR_ACC_LOW_Z             = 0x10,
+    LSM303AGR_ACC_HIGH_Y            = 0x08,
+    LSM303AGR_ACC_LOW_Y             = 0x04,
+    LSM303AGR_ACC_HIGH_X            = 0x02,
+    LSM303AGR_ACC_LOW_X             = 0x01,
+    LSM303AGR_ACC_NO_INTERRUPT      = 0x00,
+} LSM303AGR_ACC_InterruptReason;
+
+
 
 /* Class Declaration ---------------------------------------------------------*/
 
@@ -112,6 +125,8 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef SetActivityDuration         (int duration, float odr = 0);
     LSM303AGR_ACC_StatusTypeDef EnableActivityInterrupt     (void);
     LSM303AGR_ACC_StatusTypeDef DisableActivityInterrupt    (void);
+    LSM303AGR_ACC_StatusTypeDef ReadInterrupt1             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
+    LSM303AGR_ACC_StatusTypeDef ReadInterrupt2             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
 
 	/**
      * @brief Utility function to read data.
@@ -164,6 +179,7 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_Normal_Mode( float *sensitivity );
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_LP_Mode( float *sensitivity );
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_HR_Mode( float *sensitivity );
+    LSM303AGR_ACC_StatusTypeDef ReadInterruptSource(uint8_t reg, LSM303AGR_ACC_InterruptReason* reason);
 
     /* Helper classes. */
     TwoWire *dev_i2c;

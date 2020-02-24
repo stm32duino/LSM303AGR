@@ -779,6 +779,40 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableActivityInterrupt(void)
     return LSM303AGR_ACC_STATUS_OK;
 }
 
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterruptSource(uint8_t interruptReg, LSM303AGR_ACC_InterruptReason* reason)
+{
+    uint8_t data;
+    if (LSM303AGR_ACC_ReadReg((void*)this, interruptReg, &data) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (reason != nullptr)
+        *reason = (LSM303AGR_ACC_InterruptReason)data;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Gets the source for Interrupt 1. Reading this clears the interrupt.
+ * @param reason Gets the reason for what triggered the interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterrupt1(LSM303AGR_ACC_InterruptReason* reason)
+{
+    return ReadInterruptSource(LSM303AGR_ACC_INT1_SOURCE, reason);
+}
+
+/**
+ * @brief Gets the source for Interrupt 2. Reading this clears the interrupt.
+ * @param reason Gets the reason for what triggered the interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterrupt2(LSM303AGR_ACC_InterruptReason* reason)
+{
+    return ReadInterruptSource(LSM303AGR_ACC_INT2_SOURCE, reason);
+}
+
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {
   return ((LSM303AGR_ACC_Sensor *)handle)->IO_Write(pBuffer, WriteAddr, nBytesToWrite);
