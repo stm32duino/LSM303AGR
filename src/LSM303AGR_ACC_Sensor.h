@@ -128,6 +128,8 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef ReadInterrupt1             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
     LSM303AGR_ACC_StatusTypeDef ReadInterrupt2             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
 
+    LSM303AGR_ACC_StatusTypeDef SetHighPassFilter       (int interrupt, bool enable, bool filterData);
+
 	/**
      * @brief Utility function to read data.
      * @param  pBuffer: pointer to data to be read.

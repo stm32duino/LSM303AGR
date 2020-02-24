@@ -813,6 +813,29 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterrupt2(LSM303AGR_ACC_I
     return ReadInterruptSource(LSM303AGR_ACC_INT2_SOURCE, reason);
 }
 
+/**
+ * @brief Sets up the High-Pass filter for interrupts and 
+ * @param interrupt 1 for Interrupt 1, 2 for Interrupt 2
+ * @param enable true to enable interrupt, false to disable
+ * @param filterData true to have HPF filter data, false to disable
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetHighPassFilter(int interrupt, bool enable, bool filterData)
+{
+    if (interrupt == 1 && LSM303AGR_ACC_W_hpf_aoi_en_int1(this, enable ? LSM303AGR_ACC_HPIS1_ENABLED : LSM303AGR_ACC_HPIS1_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (interrupt == 2 && LSM303AGR_ACC_W_hpf_aoi_en_int2(this, enable ? LSM303AGR_ACC_HPIS2_ENABLED : LSM303AGR_ACC_HPIS2_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (LSM303AGR_ACC_W_Data_Filter(this, filterData ? LSM303AGR_ACC_FDS_ENABLED : LSM303AGR_ACC_FDS_BYPASSED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {
   return ((LSM303AGR_ACC_Sensor *)handle)->IO_Write(pBuffer, WriteAddr, nBytesToWrite);
