@@ -60,12 +60,17 @@ LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c) : LSM303AGR_MAG_Sensor(
  */
 LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c, uint8_t address) : dev_i2c(i2c), address(address)
 {
-  
+    //if LSM303AGR_NO_INIT is defined, do not initialize     
+    //the device in the constructor - this causes a hardfault
+    //because I2C hasn't been initialized yet
+#ifndef LSM303AGR_NO_INIT
+    Init();
+#endif // LSM303AGR_NO_INIT
+
 }
 
 void LSM303AGR_MAG_Sensor::Init(void)
 {
-
     /* Operating mode selection - power down */
     if (LSM303AGR_MAG_W_MD((void*)this, LSM303AGR_MAG_MD_IDLE1_MODE) == MEMS_ERROR)
     {

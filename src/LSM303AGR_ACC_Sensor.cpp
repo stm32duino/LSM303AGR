@@ -59,7 +59,13 @@ LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : LSM303AGR_ACC_Sensor(
  */
 LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c, uint8_t address) : dev_i2c(i2c), address(address)
 {
-    
+//if LSM303AGR_NO_INIT is defined, do not initialize     
+//the device in the constructor - this causes a hardfault
+//because I2C hasn't been initialized yet
+#ifndef LSM303AGR_NO_INIT
+    Init();
+#endif // LSM303AGR_NO_INIT
+
 }
 
 LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::Init()
