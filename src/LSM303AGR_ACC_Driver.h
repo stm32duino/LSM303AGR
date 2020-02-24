@@ -293,10 +293,10 @@ mems_status_t LSM303AGR_ACC_R_WHO_AM_I(void *handle, u8_t *value);
 *******************************************************************************/
 typedef enum {
   	LSM303AGR_ACC_TEMP_EN_DISABLED 		 =0x00,
-  	LSM303AGR_ACC_TEMP_EN_ENABLED 		 =0x40,
+  	LSM303AGR_ACC_TEMP_EN_ENABLED 		 =0xC0,
 } LSM303AGR_ACC_TEMP_EN_t;
 
-#define  	LSM303AGR_ACC_TEMP_EN_MASK  	0x40
+#define  	LSM303AGR_ACC_TEMP_EN_MASK  	0xC0
 mems_status_t  LSM303AGR_ACC_W_TEMP_EN_bits(void *handle, LSM303AGR_ACC_TEMP_EN_t newValue);
 mems_status_t LSM303AGR_ACC_R_TEMP_EN_bits(void *handle, LSM303AGR_ACC_TEMP_EN_t *value);
 

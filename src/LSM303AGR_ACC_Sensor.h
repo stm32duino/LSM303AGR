@@ -81,22 +81,27 @@ typedef enum
 class LSM303AGR_ACC_Sensor
 {
   public:
-    LSM303AGR_ACC_Sensor                       (TwoWire *i2c);
-    LSM303AGR_ACC_Sensor                       (TwoWire *i2c, uint8_t address);
-    LSM303AGR_ACC_StatusTypeDef Enable         (void);
-    LSM303AGR_ACC_StatusTypeDef Disable        (void);
-    LSM303AGR_ACC_StatusTypeDef ReadID         (uint8_t *p_id);
-    LSM303AGR_ACC_StatusTypeDef GetAxes        (int32_t *pData);
-    LSM303AGR_ACC_StatusTypeDef GetSensitivity (float *pfData);
-	LSM303AGR_ACC_StatusTypeDef GetAxesRaw     (int16_t *pData);
-	LSM303AGR_ACC_StatusTypeDef GetODR         (float *odr);
-	LSM303AGR_ACC_StatusTypeDef SetODR         (float odr);
-	LSM303AGR_ACC_StatusTypeDef GetFS          (float *fullScale);
-	LSM303AGR_ACC_StatusTypeDef SetFS          (float fullScale);
-	LSM303AGR_ACC_StatusTypeDef ReadReg        (uint8_t reg, uint8_t *data);
-	LSM303AGR_ACC_StatusTypeDef WriteReg       (uint8_t reg, uint8_t data);
+    LSM303AGR_ACC_Sensor                                 (TwoWire *i2c);
+    LSM303AGR_ACC_Sensor                                 (TwoWire *i2c, uint8_t address);
+    LSM303AGR_ACC_StatusTypeDef Enable                   (void);
+    LSM303AGR_ACC_StatusTypeDef Disable                  (void);
+    LSM303AGR_ACC_StatusTypeDef ReadID                   (uint8_t *p_id);
+    LSM303AGR_ACC_StatusTypeDef GetAxes                  (int32_t *pData);
+    LSM303AGR_ACC_StatusTypeDef GetSensitivity           (float *pfData);
+    LSM303AGR_ACC_StatusTypeDef GetAxesRaw               (int16_t *pData);
+    LSM303AGR_ACC_StatusTypeDef GetODR                   (float *odr);
+    LSM303AGR_ACC_StatusTypeDef SetODR                   (float odr);
+    LSM303AGR_ACC_StatusTypeDef GetFS                    (float *fullScale);
+    LSM303AGR_ACC_StatusTypeDef SetFS                    (float fullScale);
+    LSM303AGR_ACC_StatusTypeDef EnableSelfTest           (uint8_t self_test = 0);
+    LSM303AGR_ACC_StatusTypeDef DisableSelfTest          (void);
+    LSM303AGR_ACC_StatusTypeDef EnableTemperatureSensor  (void);
+    LSM303AGR_ACC_StatusTypeDef DisableTemperatureSensor (void);
+    LSM303AGR_ACC_StatusTypeDef GetTemperature           (float* temperature);
+    LSM303AGR_ACC_StatusTypeDef ReadReg                  (uint8_t reg, uint8_t *data);
+    LSM303AGR_ACC_StatusTypeDef WriteReg                 (uint8_t reg, uint8_t data);
 	
-	/**
+    /**
      * @brief Utility function to read data.
      * @param  pBuffer: pointer to data to be read.
      * @param  RegisterAddr: specifies internal address register to be read.
