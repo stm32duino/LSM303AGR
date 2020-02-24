@@ -96,7 +96,7 @@ class LSM303AGR_ACC_Sensor
   public:
     LSM303AGR_ACC_Sensor                        (TwoWire *i2c);
     LSM303AGR_ACC_Sensor                        (TwoWire *i2c, uint8_t address);
-    LSM303AGR_ACC_StatusTypeDef Init                                   (void);
+    LSM303AGR_ACC_StatusTypeDef Init            (void);
     LSM303AGR_ACC_StatusTypeDef Enable          (void);
     LSM303AGR_ACC_StatusTypeDef Disable         (void);
     LSM303AGR_ACC_StatusTypeDef ReadID          (uint8_t *p_id);
@@ -119,7 +119,7 @@ class LSM303AGR_ACC_Sensor
 
     LSM303AGR_ACC_StatusTypeDef EnableTemperatureSensor     (void);
     LSM303AGR_ACC_StatusTypeDef DisableTemperatureSensor    (void);
-    LSM303AGR_ACC_StatusTypeDef GetTemperature              (uint16_t* temperature);
+    LSM303AGR_ACC_StatusTypeDef GetTemperature              (float* temperature);
     
     LSM303AGR_ACC_StatusTypeDef SetActivityThreshold        (float threshold, float fullScale = 0);
     LSM303AGR_ACC_StatusTypeDef SetActivityDuration         (int duration, float odr = 0);
