@@ -687,7 +687,7 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableTemperatureSensor(void)
 
 /**
  * @brief Read the On-board Temperature Sensor
- * @param temperature Pointer to a 16-bit value to read into
+ * @param temperature Pointer to a float value to read into
  * @retval LSM303AGR_ACC_STATUS_OK in case of success
  * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
  */
