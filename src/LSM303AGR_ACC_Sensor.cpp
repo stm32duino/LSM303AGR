@@ -685,6 +685,72 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(uint16_t* tempe
     return LSM303AGR_ACC_STATUS_OK;
 }
 
+int GetThresholdLSB(float fullScale) 
+{
+    switch ((int)fullScale)
+    {
+    case  2: return 16;  // 1 LSb = 16 mg @ FS = 2 g
+    case  4: return 32;  // 1 LSb = 32 mg @ FS = 4 g
+    case  8: return 62;  // 1 LSb = 62 mg @ FS = 8 g
+    case 16: return 186; // 1 LSb = 186 mg @ FS = 16 g
+    default: return 16;  // default to 16 mg
+    }
+}
+
+int GetDurationLSB(float odr)
+{
+    return (int)(1000 / odr);
+}
+
+/**
+ * @brief Accelerometer activity/inactivity function threshold
+ * @param threshold activity threshold value in mg
+ * @param fullScale set threshold scaled according to fullScale, if auto (=0), fullScale is read from the device
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetActivityThreshold(float threshold, float fullScale)
+{
+    //Read FS value if not specified
+    if (fullScale == 0 && GetFS(&fullScale) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    // Sleep-to-wake, return-to-sleep activation threshold in low-power mode
+    // See Table 88. Act_THS_A description
+    
+    int lsb = GetThresholdLSB(fullScale);
+
+    uint8_t threshold_regvalue = (uint8_t)(threshold / lsb);
+    
+    if (LSM303AGR_ACC_WriteReg((void*)this, LSM303AGR_ACC_ACT_THS, threshold_regvalue) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Accelerometer activity/inactivity function threshold
+ * @param duration activity threshold value in mg
+ * @param odr set duration scaled according to odr, if auto (=0), odr is read from the device
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetActivityDuration(int duration, float odr)
+{
+    //Read FS value if not specified
+    if (odr == 0 && GetODR(&odr) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    int lsb = 8 * GetDurationLSB(odr);
+
+    uint8_t duration_regvalue = (uint8_t)(duration / lsb);
+
+    if (LSM303AGR_ACC_WriteReg((void*)this, LSM303AGR_ACC_ACT_DURATION, duration_regvalue) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {
   return ((LSM303AGR_ACC_Sensor *)handle)->IO_Write(pBuffer, WriteAddr, nBytesToWrite);

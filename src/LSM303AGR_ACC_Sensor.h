@@ -107,6 +107,9 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef EnableTemperatureSensor     (void);
     LSM303AGR_ACC_StatusTypeDef DisableTemperatureSensor    (void);
     LSM303AGR_ACC_StatusTypeDef GetTemperature              (uint16_t* temperature);
+    
+    LSM303AGR_ACC_StatusTypeDef SetActivityThreshold        (float threshold, float fullScale = 0);
+    LSM303AGR_ACC_StatusTypeDef SetActivityDuration         (int duration, float odr = 0);
 
 	/**
      * @brief Utility function to read data.
