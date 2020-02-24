@@ -39,7 +39,6 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "Arduino.h"
-#include "Wire.h"
 #include "LSM303AGR_ACC_Sensor.h"
 
 
@@ -623,6 +622,100 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetFS(float fullScale)
   }
   
   return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Enable LSM303 Embedded Self Test 
+ * @param self_test 0 for Self-Test 0, otherwise Self-Test 1
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableSelfTest(uint8_t self_test)
+{
+    // 4.2.4 Accelerometer self - test
+    // The self-test allows the user to check the sensor functionality without moving it.When the
+    // self-test is enabled, an actuation force is applied to the sensor, simulating a definite input
+    // acceleration.In this case the sensor outputs will exhibit a change in their DC levels which
+    // are related to the selected full scale through the device sensitivity.When the self-test is
+    // activated, the device output level is given by the algebraic sum of the signals produced by
+    // the acceleration acting on the sensor and by the electrostatic test-force.
+
+    if (LSM303AGR_ACC_W_SelfTest(this, self_test == 0 ? LSM303AGR_ACC_ST_SELF_TEST_0 : LSM303AGR_ACC_ST_SELF_TEST_1) == MEMS_ERROR)    
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Disable LSM303 Embedded Self Test
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableSelfTest(void)
+{    
+    if (LSM303AGR_ACC_W_SelfTest(this, LSM303AGR_ACC_ST_DISABLED))
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Enable On-board Temperature Sensor
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableTemperatureSensor(void)
+{
+    if(LSM303AGR_ACC_W_TEMP_EN_bits((void*)this, LSM303AGR_ACC_TEMP_EN_ENABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Disable On-board Temperature Sensor
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableTemperatureSensor(void)
+{
+    if (LSM303AGR_ACC_W_TEMP_EN_bits((void*)this, LSM303AGR_ACC_TEMP_EN_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Read the On-board Temperature Sensor
+ * @param temperature Pointer to a 16-bit value to read into
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(float *temperature)
+{
+    uint16_t temp;
+    uint8_t temp_low;
+    LSM303AGR_ACC_3DA__t value;
+
+    do
+    {
+        if(LSM303AGR_ACC_R_z_data_avail((void*)this, &value) == MEMS_ERROR)
+        {
+            return LSM303AGR_ACC_STATUS_ERROR;
+        }
+    } while(value != LSM303AGR_ACC_3DA__AVAILABLE);
+
+    if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_H, (uint8_t*)&temp) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_L, &temp_low) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    temp  = (temp << 8) + temp_low;
+
+    *temperature = (((int16_t)temp / 256.0f) + 25.0f);
+
+    return LSM303AGR_ACC_STATUS_OK;
 }
 
 /**

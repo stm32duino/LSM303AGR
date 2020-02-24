@@ -27,6 +27,11 @@ GetSensitivity	KEYWORD2
 GetAxesRaw	KEYWORD2
 GetFS	KEYWORD2
 SetFS	KEYWORD2
+EnableSelfTest	KEYWORD2
+DisableSelfTest	KEYWORD2
+EnableTemperatureSensor	KEYWORD2
+DisableTemperatureSensor	KEYWORD2
+GetTemperature	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
