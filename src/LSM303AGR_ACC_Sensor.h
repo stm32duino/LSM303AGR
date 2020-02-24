@@ -110,6 +110,8 @@ class LSM303AGR_ACC_Sensor
     
     LSM303AGR_ACC_StatusTypeDef SetActivityThreshold        (float threshold, float fullScale = 0);
     LSM303AGR_ACC_StatusTypeDef SetActivityDuration         (int duration, float odr = 0);
+    LSM303AGR_ACC_StatusTypeDef EnableActivityInterrupt     (void);
+    LSM303AGR_ACC_StatusTypeDef DisableActivityInterrupt    (void);
 
 	/**
      * @brief Utility function to read data.

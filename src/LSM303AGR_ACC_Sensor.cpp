@@ -718,7 +718,9 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetActivityThreshold(float thr
     // Sleep-to-wake, return-to-sleep activation threshold in low-power mode
     // See Table 88. Act_THS_A description
     
-    int lsb = GetThresholdLSB(fullScale);
+    //1 LSB = Full scale / 128 [mg]
+    //Fullscale value is in g
+    float lsb = (GetThresholdLSB(fullScale) * 1000) / 128.0f;
 
     uint8_t threshold_regvalue = (uint8_t)(threshold / lsb);
     
@@ -746,6 +748,32 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetActivityDuration(int durati
     uint8_t duration_regvalue = (uint8_t)(duration / lsb);
 
     if (LSM303AGR_ACC_WriteReg((void*)this, LSM303AGR_ACC_ACT_DURATION, duration_regvalue) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Enable activity detection interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableActivityInterrupt(void)
+{
+    if (LSM303AGR_ACC_W_P2_ACT((void*)this, LSM303AGR_ACC_P2_ACT_ENABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Disable activity detection interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableActivityInterrupt(void)
+{
+    if (LSM303AGR_ACC_W_P2_ACT((void*)this, LSM303AGR_ACC_P2_ACT_DISABLED) == MEMS_ERROR)
         return LSM303AGR_ACC_STATUS_ERROR;
 
     return LSM303AGR_ACC_STATUS_OK;
