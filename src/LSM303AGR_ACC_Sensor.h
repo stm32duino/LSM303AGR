@@ -129,6 +129,7 @@ class LSM303AGR_ACC_Sensor
 	LSM303AGR_ACC_StatusTypeDef ReadReg         (uint8_t reg, uint8_t *data);
 	LSM303AGR_ACC_StatusTypeDef WriteReg        (uint8_t reg, uint8_t data);
 
+    LSM303AGR_ACC_StatusTypeDef Reboot          (void);
     LSM303AGR_ACC_StatusTypeDef EnableSelfTest  (uint8_t self_test = 0);
     LSM303AGR_ACC_StatusTypeDef DisableSelfTest (void);
 
@@ -151,6 +152,7 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef SetInterruptThreshold   (int interrupt, float threshold, float fullScale = 0);
     LSM303AGR_ACC_StatusTypeDef SetInterruptDuration    (int interrupt, int duration, float odr = 0);
     LSM303AGR_ACC_StatusTypeDef EnableWakeUpDetection   (float threshold, float fullscale = 0, bool latch = false);
+
 
 	/**
      * @brief Utility function to read data.

@@ -610,6 +610,19 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::WriteReg( uint8_t reg, uint8_t
 }
 
 /**
+ * @brief Reboot accelerometer memory contents
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::Reboot(void)
+{
+    if (LSM303AGR_ACC_W_RebootMemory((void*)this, LSM303AGR_ACC_BOOT_REBOOT) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
  * @brief Enable LSM303 Embedded Self Test 
  * @param self_test 0 for Self-Test 0, otherwise Self-Test 1
  * @retval LSM303AGR_ACC_STATUS_OK in case of success
