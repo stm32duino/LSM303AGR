@@ -974,8 +974,8 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableWakeUpDetection(float th
     // 7 Write 00h into INT1_DURATION_A // Duration = 0
     // 8 Write 0Ah into INT1_CFG_A // Enable XH and YH interrupt generation
 
-    //1. Enable X Y        
-    WriteReg(LSM303AGR_ACC_CTRL_REG1, 0xA7);    
+    //1. Enable X Y Z   
+    SetAxes(LSM303AGR_ACC_AXIS_ALL);    
 
     //2. Disable HPF
     if (WriteReg(LSM303AGR_ACC_CTRL_REG2, 0x00) == LSM303AGR_ACC_STATUS_ERROR)
@@ -1006,6 +1006,38 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableWakeUpDetection(float th
         return LSM303AGR_ACC_STATUS_ERROR;
 
     return LSM303AGR_ACC_STATUS_OK;
+}
+
+
+/**
+ * @brief Set power mode
+ * @param mode specify either low power mode or high resolution mode
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetPowerMode(LSM303AGR_ACC_PowerMode mode)
+{
+    if(LSM303AGR_ACC_W_LOWPWR_EN((void*)this, mode == LSM303AGR_ACC_MODE_LOW_POWER ? LSM303AGR_ACC_LPEN_ENABLED : LSM303AGR_ACC_LPEN_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Set the state of all three axes
+ * @param axes specify one or more axes to enable or disable
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetAxes(LSM303AGR_ACC_Axes axes)
+{
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_CTRL_REG1, &value) != LSM303AGR_ACC_STATUS_OK)
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+    value &= ~(0b111);
+    value |= axes;
+    return WriteReg(LSM303AGR_ACC_CTRL_REG1, value);
 }
 
 

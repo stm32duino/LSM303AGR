@@ -97,8 +97,20 @@ typedef enum
     LSM303AGR_ACC_NO_INTERRUPT = 0x00,
 } LSM303AGR_ACC_InterruptReason;
 
+typedef enum
+{
+    LSM303AGR_ACC_MODE_LOW_POWER = 1,
+    LSM303AGR_ACC_MODE_HIGH_RES  = 0,
+} LSM303AGR_ACC_PowerMode;
 
-
+typedef enum
+{
+    LSM303AGR_ACC_AXIS_X = 0x01,
+    LSM303AGR_ACC_AXIS_Y = 0x02,
+    LSM303AGR_ACC_AXIS_Z = 0x04,
+    LSM303AGR_ACC_AXIS_ALL = LSM303AGR_ACC_AXIS_X | LSM303AGR_ACC_AXIS_Y | LSM303AGR_ACC_AXIS_Z,
+    LSM303AGR_ACC_AXIS_NONE = 0
+} LSM303AGR_ACC_Axes;
 
 /* Class Declaration ---------------------------------------------------------*/
 
@@ -153,6 +165,8 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef SetInterruptDuration    (int interrupt, int duration, float odr = 0);
     LSM303AGR_ACC_StatusTypeDef EnableWakeUpDetection   (float threshold, float fullscale = 0, bool latch = false);
 
+    LSM303AGR_ACC_StatusTypeDef SetPowerMode            (LSM303AGR_ACC_PowerMode mode);
+    LSM303AGR_ACC_StatusTypeDef SetAxes              (LSM303AGR_ACC_Axes axes);
 
 	/**
      * @brief Utility function to read data.
