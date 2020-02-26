@@ -554,6 +554,10 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetFS(float* fullScale)
  */
 LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetFS(float fullScale)
 {
+    //Not a valid full-scale, so don't attempt to write 2G
+    if (fullScale <= 0.0)
+        return LSM303AGR_ACC_STATUS_OK;
+
   LSM303AGR_ACC_FS_t new_fs;
   
   new_fs = ( fullScale <= 2.0f ) ? LSM303AGR_ACC_FS_2G
