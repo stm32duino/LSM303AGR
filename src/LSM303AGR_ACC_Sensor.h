@@ -73,15 +73,30 @@ typedef enum
 
 typedef enum 
 {
-    LSM303AGR_ACC_INTERRUPT_ACTIVE  = 0x40,
-    LSM303AGR_ACC_HIGH_Z            = 0x20,
-    LSM303AGR_ACC_LOW_Z             = 0x10,
-    LSM303AGR_ACC_HIGH_Y            = 0x08,
-    LSM303AGR_ACC_LOW_Y             = 0x04,
-    LSM303AGR_ACC_HIGH_X            = 0x02,
-    LSM303AGR_ACC_LOW_X             = 0x01,
-    LSM303AGR_ACC_NO_INTERRUPT      = 0x00,
+    LSM303AGR_ACC_INT1_ALL              = 0xFF,
+    LSM303AGR_ACC_INT1_CLICK            = 0x80,
+    LSM303AGR_ACC_INT1_AOI1             = 0x40,
+    LSM303AGR_ACC_INT1_AOI2             = 0x20,
+    LSM303AGR_ACC_INT1_DRDY1            = 0x10,
+    LSM303AGR_ACC_INT1_DRDY2            = 0x08,
+    LSM303AGR_ACC_INT1_FIFO_WATERMARK   = 0x04,
+    LSM303AGR_ACC_INT1_FIFO_OVERRUN     = 0x02,
+    LSM303AGR_ACC_INT1_NONE             = 0x00,
+} LSM303AGR_ACC_InterruptKind;
+
+
+typedef enum
+{
+    LSM303AGR_ACC_INTERRUPT_ACTIVE = 0x40,
+    LSM303AGR_ACC_HIGH_Z = 0x20,
+    LSM303AGR_ACC_LOW_Z = 0x10,
+    LSM303AGR_ACC_HIGH_Y = 0x08,
+    LSM303AGR_ACC_LOW_Y = 0x04,
+    LSM303AGR_ACC_HIGH_X = 0x02,
+    LSM303AGR_ACC_LOW_X = 0x01,
+    LSM303AGR_ACC_NO_INTERRUPT = 0x00,
 } LSM303AGR_ACC_InterruptReason;
+
 
 
 
@@ -129,6 +144,8 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef ReadInterrupt2             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
 
     LSM303AGR_ACC_StatusTypeDef SetHighPassFilter       (int interrupt, bool enable, bool filterData);
+    LSM303AGR_ACC_StatusTypeDef EnableInterrupt         (LSM303AGR_ACC_InterruptKind kind);
+    LSM303AGR_ACC_StatusTypeDef DisableInterrupt        (LSM303AGR_ACC_InterruptKind kind);
 
 	/**
      * @brief Utility function to read data.

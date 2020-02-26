@@ -855,6 +855,38 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetHighPassFilter(int interrup
     return LSM303AGR_ACC_STATUS_OK;
 }
 
+/**
+ * @brief Enables interrupts of the specified types
+ * @param kind flag to specify one or more multiple interrupt types
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableInterrupt(LSM303AGR_ACC_InterruptKind kind)
+{
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_CTRL_REG3, &value) != LSM303AGR_ACC_STATUS_OK)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    value |= kind;
+    return WriteReg(LSM303AGR_ACC_CTRL_REG3, value);
+}
+
+/**
+ * @brief Disables interrupts of the specified types
+ * @param kind flag to specify one or more multiple interrupt types
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableInterrupt(LSM303AGR_ACC_InterruptKind kind)
+{
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_CTRL_REG3, &value) != LSM303AGR_ACC_STATUS_OK)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    value &= ~kind;
+    return WriteReg(LSM303AGR_ACC_CTRL_REG3, value);
+}
+
 
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {
