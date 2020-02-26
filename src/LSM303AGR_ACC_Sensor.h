@@ -146,6 +146,11 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef SetHighPassFilter       (int interrupt, bool enable, bool filterData);
     LSM303AGR_ACC_StatusTypeDef EnableInterrupt         (LSM303AGR_ACC_InterruptKind kind);
     LSM303AGR_ACC_StatusTypeDef DisableInterrupt        (LSM303AGR_ACC_InterruptKind kind);
+    
+    LSM303AGR_ACC_StatusTypeDef ReadReference           (void);
+    LSM303AGR_ACC_StatusTypeDef SetInterruptThreshold   (int interrupt, float threshold, float fullScale = 0);
+    LSM303AGR_ACC_StatusTypeDef SetInterruptDuration    (int interrupt, int duration, float odr = 0);
+    LSM303AGR_ACC_StatusTypeDef EnableWakeUpDetection   (float threshold, float fullscale = 0, bool latch = false);
 
 	/**
      * @brief Utility function to read data.
