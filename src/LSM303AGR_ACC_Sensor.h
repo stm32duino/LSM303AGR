@@ -131,6 +131,7 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef GetAxes         (int32_t *pData);
     LSM303AGR_ACC_StatusTypeDef GetSensitivity  (float *pfData);
 	LSM303AGR_ACC_StatusTypeDef GetAxesRaw      (int16_t *pData);
+    LSM303AGR_ACC_StatusTypeDef IsDataAvailable (bool* available, LSM303AGR_ACC_Axes axes = LSM303AGR_ACC_AXIS_ALL);
 
     LSM303AGR_ACC_StatusTypeDef GetODR          (float *odr);
 	LSM303AGR_ACC_StatusTypeDef SetODR          (float odr);
@@ -166,7 +167,7 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef EnableWakeUpDetection   (float threshold, float fullscale = 0, bool latch = false);
 
     LSM303AGR_ACC_StatusTypeDef SetPowerMode            (LSM303AGR_ACC_PowerMode mode);
-    LSM303AGR_ACC_StatusTypeDef SetAxes              (LSM303AGR_ACC_Axes axes);
+    LSM303AGR_ACC_StatusTypeDef SetAxes                 (LSM303AGR_ACC_Axes axes);
 
 	/**
      * @brief Utility function to read data.

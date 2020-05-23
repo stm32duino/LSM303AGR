@@ -395,6 +395,48 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetAxesRaw(int16_t *pData)
 }
 
 /**
+ * @brief Check if new data is available for all or some of the axes
+ * @param available will be true if new data is available
+ * @param axes specify one or more axes to enable or disable
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::IsDataAvailable(bool* available, LSM303AGR_ACC_Axes axes)
+{    
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_STATUS_REG2, &value) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (axes == LSM303AGR_ACC_AXIS_ALL)
+    {
+        *available = (value & LSM303AGR_ACC_ZYXDA_MASK) == LSM303AGR_ACC_ZYXDA_AVAILABLE;
+    }
+    else 
+    {
+        bool result = true;
+
+        if ((axes & LSM303AGR_ACC_AXIS_X) == LSM303AGR_ACC_AXIS_X)
+        {
+            result = result && ((value & LSM303AGR_ACC_XDA_MASK) == LSM303AGR_ACC_XDA_AVAILABLE);
+        }
+
+        if ((axes & LSM303AGR_ACC_AXIS_Y) == LSM303AGR_ACC_AXIS_Y)
+        {
+            result = result && ((value & LSM303AGR_ACC_YDA_MASK) == LSM303AGR_ACC_YDA_AVAILABLE);
+        }
+
+        if ((axes & LSM303AGR_ACC_AXIS_Z) == LSM303AGR_ACC_AXIS_Z)
+        {
+            result = result && ((value & LSM303AGR_ACC_ZDA_MASK) == LSM303AGR_ACC_ZDA_AVAILABLE);
+        }
+
+        *available = result;
+    }
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
  * @brief  Read LSM303AGR Accelerometer output data rate
  * @param  odr the pointer to the output data rate
  * @retval LSM303AGR_ACC_STATUS_OK in case of success, an error code otherwise
