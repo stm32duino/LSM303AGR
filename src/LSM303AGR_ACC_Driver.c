@@ -3948,3 +3948,97 @@ mems_status_t LSM303AGR_ACC_Get_Acceleration(void *handle, int *buff)
 
   return MEMS_SUCCESS;
 }
+
+
+
+/*******************************************************************************
+* Function Name  : LSM303AGR_ACC_W_Act_Threshold
+* Description    : Write THS
+* Input          : u8_t
+* Output         : None
+* Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
+*******************************************************************************/
+mems_status_t  LSM303AGR_ACC_W_Act_Threshold(void* handle, u8_t newValue)
+{
+    u8_t value;
+
+    newValue = newValue << LSM303AGR_ACC_THS_POSITION; //mask	
+    newValue &= LSM303AGR_ACC_THS_MASK; //coerce
+
+    if (!LSM303AGR_ACC_ReadReg(handle, LSM303AGR_ACC_ACT_THS, &value))
+        return MEMS_ERROR;
+
+    value &= ~LSM303AGR_ACC_THS_MASK;
+    value |= newValue;
+
+    if (!LSM303AGR_ACC_WriteReg(handle, LSM303AGR_ACC_ACT_THS, value))
+        return MEMS_ERROR;
+
+    return MEMS_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name  : LSM303AGR_ACC_R_Act_Threshold
+* Description    : Read THS
+* Input          : Pointer to u8_t
+* Output         : Status of THS
+* Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
+*******************************************************************************/
+
+mems_status_t LSM303AGR_ACC_R_Act_Threshold(void* handle, u8_t* value)
+{
+    if (!LSM303AGR_ACC_ReadReg(handle, LSM303AGR_ACC_ACT_THS, (u8_t*)value))
+        return MEMS_ERROR;
+
+    *value &= LSM303AGR_ACC_THS_MASK; //coerce	
+    *value = *value >> LSM303AGR_ACC_THS_POSITION; //mask	
+
+    return MEMS_SUCCESS;
+}
+
+
+
+/*******************************************************************************
+* Function Name  : LSM303AGR_ACC_W_Act_Duration
+* Description    : Write D
+* Input          : u8_t
+* Output         : None
+* Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
+*******************************************************************************/
+mems_status_t  LSM303AGR_ACC_W_Act_Duration(void* handle, u8_t newValue)
+{
+    u8_t value;
+
+    newValue = newValue << LSM303AGR_ACC_D_POSITION; //mask	
+    newValue &= LSM303AGR_ACC_D_MASK; //coerce
+
+    if (!LSM303AGR_ACC_ReadReg(handle, LSM303AGR_ACC_ACT_DURATION, &value))
+        return MEMS_ERROR;
+
+    value &= ~LSM303AGR_ACC_D_MASK;
+    value |= newValue;
+
+    if (!LSM303AGR_ACC_WriteReg(handle, LSM303AGR_ACC_ACT_DURATION, value))
+        return MEMS_ERROR;
+
+    return MEMS_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name  : LSM303AGR_ACC_R_Act_Duration
+* Description    : Read D
+* Input          : Pointer to u8_t
+* Output         : Status of D
+* Return         : Status [MEMS_ERROR, MEMS_SUCCESS]
+*******************************************************************************/
+
+mems_status_t LSM303AGR_ACC_R_Act_Duration(void* handle, u8_t* value)
+{
+    if (!LSM303AGR_ACC_ReadReg(handle, LSM303AGR_ACC_ACT_DURATION, (u8_t*)value))
+        return MEMS_ERROR;
+
+    *value &= LSM303AGR_ACC_D_MASK; //coerce	
+    *value = *value >> LSM303AGR_ACC_D_POSITION; //mask	
+
+    return MEMS_SUCCESS;
+}

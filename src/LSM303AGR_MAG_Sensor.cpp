@@ -49,36 +49,9 @@
  * @param i2c object of an helper class which handles the I2C peripheral
  * @param address the address of the component's instance
  */
-LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c) : dev_i2c(i2c)
+LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c) : LSM303AGR_MAG_Sensor(i2c, LSM303AGR_MAG_I2C_ADDRESS)
 {
-  address = LSM303AGR_MAG_I2C_ADDRESS;
-
-  /* Operating mode selection - power down */
-  if ( LSM303AGR_MAG_W_MD( (void *)this, LSM303AGR_MAG_MD_IDLE1_MODE ) == MEMS_ERROR )
-  {
-    return;
-  }
   
-  /* Enable BDU */
-  if ( LSM303AGR_MAG_W_BDU( (void *)this, LSM303AGR_MAG_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( SetODR( 100.0f ) == LSM303AGR_MAG_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  if ( SetFS( 50.0f ) == LSM303AGR_MAG_STATUS_ERROR )
-  {
-    return;
-  }
-
-  if ( LSM303AGR_MAG_W_ST( (void *)this, LSM303AGR_MAG_ST_DISABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
 };
 
 /** Constructor
@@ -87,33 +60,44 @@ LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c) : dev_i2c(i2c)
  */
 LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c, uint8_t address) : dev_i2c(i2c), address(address)
 {
-  /* Operating mode selection - power down */
-  if ( LSM303AGR_MAG_W_MD( (void *)this, LSM303AGR_MAG_MD_IDLE1_MODE ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Enable BDU */
-  if ( LSM303AGR_MAG_W_BDU( (void *)this, LSM303AGR_MAG_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( SetODR( 100.0f ) == LSM303AGR_MAG_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  if ( SetFS( 50.0f ) == LSM303AGR_MAG_STATUS_ERROR )
-  {
-    return;
-  }
+    //if LSM303AGR_NO_INIT is defined, do not initialize     
+    //the device in the constructor - this causes a hardfault
+    //because I2C hasn't been initialized yet
+#ifndef LSM303AGR_NO_INIT
+    Init();
+#endif // LSM303AGR_NO_INIT
 
-  if ( LSM303AGR_MAG_W_ST( (void *)this, LSM303AGR_MAG_ST_DISABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-};
+}
+
+void LSM303AGR_MAG_Sensor::Init(void)
+{
+    /* Operating mode selection - power down */
+    if (LSM303AGR_MAG_W_MD((void*)this, LSM303AGR_MAG_MD_IDLE1_MODE) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    /* Enable BDU */
+    if (LSM303AGR_MAG_W_BDU((void*)this, LSM303AGR_MAG_BDU_ENABLED) == MEMS_ERROR)
+    {
+        return;
+    }
+
+    if (SetODR(100.0f) == LSM303AGR_MAG_STATUS_ERROR)
+    {
+        return;
+    }
+
+    if (SetFS(50.0f) == LSM303AGR_MAG_STATUS_ERROR)
+    {
+        return;
+    }
+
+    if (LSM303AGR_MAG_W_ST((void*)this, LSM303AGR_MAG_ST_DISABLED) == MEMS_ERROR)
+    {
+        return;
+    }
+}
 
 /**
  * @brief  Enable LSM303AGR magnetometer

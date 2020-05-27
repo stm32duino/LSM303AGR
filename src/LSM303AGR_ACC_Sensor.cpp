@@ -39,8 +39,8 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "Arduino.h"
+#include "LSM303AGR_ACC_Driver.h"
 #include "LSM303AGR_ACC_Sensor.h"
-
 
 /* Class Implementation ------------------------------------------------------*/
 
@@ -48,54 +48,9 @@
  * @param i2c object of an helper class which handles the I2C peripheral
  * @param address the address of the component's instance
  */
-LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : dev_i2c(i2c)
+LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : LSM303AGR_ACC_Sensor(i2c, LSM303AGR_ACC_I2C_ADDRESS)
 {
-  address = LSM303AGR_ACC_I2C_ADDRESS;
   
-  /* Enable BDU */
-  if ( LSM303AGR_ACC_W_BlockDataUpdate( (void *)this, LSM303AGR_ACC_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* FIFO mode selection */
-  if ( LSM303AGR_ACC_W_FifoMode( (void *)this, LSM303AGR_ACC_FM_BYPASS ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Output data rate selection - power down. */
-  if ( LSM303AGR_ACC_W_ODR( (void *)this, LSM303AGR_ACC_ODR_DO_PWR_DOWN ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Full scale selection. */
-  if ( SetFS( 2.0f ) == LSM303AGR_ACC_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  /* Enable axes. */
-  if ( LSM303AGR_ACC_W_XEN( (void *)this, LSM303AGR_ACC_XEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_YEN ( (void *)this, LSM303AGR_ACC_YEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_ZEN ( (void *)this, LSM303AGR_ACC_ZEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Select default output data rate. */
-  Last_ODR = 100.0f;
-  
-  isEnabled = 0;
 };
 
 /** Constructor
@@ -104,51 +59,41 @@ LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c) : dev_i2c(i2c)
  */
 LSM303AGR_ACC_Sensor::LSM303AGR_ACC_Sensor(TwoWire *i2c, uint8_t address) : dev_i2c(i2c), address(address)
 {
-  /* Enable BDU */
-  if ( LSM303AGR_ACC_W_BlockDataUpdate( (void *)this, LSM303AGR_ACC_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* FIFO mode selection */
-  if ( LSM303AGR_ACC_W_FifoMode( (void *)this, LSM303AGR_ACC_FM_BYPASS ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Output data rate selection - power down. */
-  if ( LSM303AGR_ACC_W_ODR( (void *)this, LSM303AGR_ACC_ODR_DO_PWR_DOWN ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Full scale selection. */
-  if ( SetFS( 2.0f ) == LSM303AGR_ACC_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  /* Enable axes. */
-  if ( LSM303AGR_ACC_W_XEN( (void *)this, LSM303AGR_ACC_XEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_YEN ( (void *)this, LSM303AGR_ACC_YEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( LSM303AGR_ACC_W_ZEN ( (void *)this, LSM303AGR_ACC_ZEN_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Select default output data rate. */
-  Last_ODR = 100.0f;
-  
-  isEnabled = 0;
-};
+//if LSM303AGR_NO_INIT is defined, do not initialize     
+//the device in the constructor - this causes a hardfault
+//because I2C hasn't been initialized yet
+#ifndef LSM303AGR_NO_INIT
+    Init();
+#endif // LSM303AGR_NO_INIT
+
+}
+
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::Init()
+{
+    /* Enable BDU */
+    if (
+        LSM303AGR_ACC_W_BlockDataUpdate((void*)this, LSM303AGR_ACC_BDU_ENABLED) == MEMS_ERROR ||
+        /* FIFO mode selection */
+        LSM303AGR_ACC_W_FifoMode((void*)this, LSM303AGR_ACC_FM_BYPASS) == MEMS_ERROR ||
+        /* Output data rate selection - power down. */
+        LSM303AGR_ACC_W_ODR((void*)this, LSM303AGR_ACC_ODR_DO_PWR_DOWN) == MEMS_ERROR ||
+        /* Full scale selection. */
+        SetFS(2.0f) == LSM303AGR_ACC_STATUS_ERROR ||
+        /* Enable axes. */
+        LSM303AGR_ACC_W_XEN((void*)this, LSM303AGR_ACC_XEN_ENABLED) == MEMS_ERROR || 
+        LSM303AGR_ACC_W_YEN((void*)this, LSM303AGR_ACC_YEN_ENABLED) == MEMS_ERROR ||
+        LSM303AGR_ACC_W_ZEN((void*)this, LSM303AGR_ACC_ZEN_ENABLED) == MEMS_ERROR
+    )
+    {
+        return LSM303AGR_ACC_STATUS_ERROR;
+    }
+
+    /* Select default output data rate. */
+    Last_ODR = 100.0f;
+    isEnabled = 0;
+    return LSM303AGR_ACC_STATUS_OK;
+}
+;
 
 /**
  * @brief  Enable LSM303AGR Accelerator
@@ -450,6 +395,48 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetAxesRaw(int16_t *pData)
 }
 
 /**
+ * @brief Check if new data is available for all or some of the axes
+ * @param available will be true if new data is available
+ * @param axes specify one or more axes to enable or disable
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::IsDataAvailable(bool* available, LSM303AGR_ACC_Axes axes)
+{    
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_STATUS_REG2, &value) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (axes == LSM303AGR_ACC_AXIS_ALL)
+    {
+        *available = (value & LSM303AGR_ACC_ZYXDA_MASK) == LSM303AGR_ACC_ZYXDA_AVAILABLE;
+    }
+    else 
+    {
+        bool result = true;
+
+        if ((axes & LSM303AGR_ACC_AXIS_X) == LSM303AGR_ACC_AXIS_X)
+        {
+            result = result && ((value & LSM303AGR_ACC_XDA_MASK) == LSM303AGR_ACC_XDA_AVAILABLE);
+        }
+
+        if ((axes & LSM303AGR_ACC_AXIS_Y) == LSM303AGR_ACC_AXIS_Y)
+        {
+            result = result && ((value & LSM303AGR_ACC_YDA_MASK) == LSM303AGR_ACC_YDA_AVAILABLE);
+        }
+
+        if ((axes & LSM303AGR_ACC_AXIS_Z) == LSM303AGR_ACC_AXIS_Z)
+        {
+            result = result && ((value & LSM303AGR_ACC_ZDA_MASK) == LSM303AGR_ACC_ZDA_AVAILABLE);
+        }
+
+        *available = result;
+    }
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
  * @brief  Read LSM303AGR Accelerometer output data rate
  * @param  odr the pointer to the output data rate
  * @retval LSM303AGR_ACC_STATUS_OK in case of success, an error code otherwise
@@ -609,6 +596,10 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetFS(float* fullScale)
  */
 LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetFS(float fullScale)
 {
+    //Not a valid full-scale, so don't attempt to write 2G
+    if (fullScale <= 0.0)
+        return LSM303AGR_ACC_STATUS_OK;
+
   LSM303AGR_ACC_FS_t new_fs;
   
   new_fs = ( fullScale <= 2.0f ) ? LSM303AGR_ACC_FS_2G
@@ -622,6 +613,55 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetFS(float fullScale)
   }
   
   return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Read accelerometer data from register
+ * @param reg register address
+ * @param data register data
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadReg( uint8_t reg, uint8_t *data )
+{
+
+  if ( LSM303AGR_ACC_ReadReg( (void *)this, reg, data ) == MEMS_ERROR )
+  {
+    return LSM303AGR_ACC_STATUS_ERROR;
+  }
+
+  return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Write accelerometer data to register
+ * @param reg register address
+ * @param data register data
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::WriteReg( uint8_t reg, uint8_t data )
+{
+
+  if ( LSM303AGR_ACC_WriteReg( (void *)this, reg, data ) == MEMS_ERROR )
+  {
+    return LSM303AGR_ACC_STATUS_ERROR;
+  }
+
+  return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Reboot accelerometer memory contents
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::Reboot(void)
+{
+    if (LSM303AGR_ACC_W_RebootMemory((void*)this, LSM303AGR_ACC_BOOT_REBOOT) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
 }
 
 /**
@@ -639,9 +679,10 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableSelfTest(uint8_t self_te
     // are related to the selected full scale through the device sensitivity.When the self-test is
     // activated, the device output level is given by the algebraic sum of the signals produced by
     // the acceleration acting on the sensor and by the electrostatic test-force.
-
+    
     if (LSM303AGR_ACC_W_SelfTest(this, self_test == 0 ? LSM303AGR_ACC_ST_SELF_TEST_0 : LSM303AGR_ACC_ST_SELF_TEST_1) == MEMS_ERROR)    
         return LSM303AGR_ACC_STATUS_ERROR;
+    
 
     return LSM303AGR_ACC_STATUS_OK;
 }
@@ -685,13 +726,14 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableTemperatureSensor(void)
     return LSM303AGR_ACC_STATUS_OK;
 }
 
+
 /**
  * @brief Read the On-board Temperature Sensor
  * @param temperature Pointer to a float value to read into
  * @retval LSM303AGR_ACC_STATUS_OK in case of success
  * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
  */
-LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(float *temperature)
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(float* temperature)
 {
     uint16_t temp;
     uint8_t temp_low;
@@ -699,11 +741,11 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(float *temperat
 
     do
     {
-        if(LSM303AGR_ACC_R_z_data_avail((void*)this, &value) == MEMS_ERROR)
+        if (LSM303AGR_ACC_R_z_data_avail((void*)this, &value) == MEMS_ERROR)
         {
             return LSM303AGR_ACC_STATUS_ERROR;
         }
-    } while(value != LSM303AGR_ACC_3DA__AVAILABLE);
+    } while (value != LSM303AGR_ACC_3DA__AVAILABLE);
 
     if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_H, (uint8_t*)&temp) == MEMS_ERROR)
         return LSM303AGR_ACC_STATUS_ERROR;
@@ -711,48 +753,335 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetTemperature(float *temperat
     if (LSM303AGR_ACC_ReadReg((void*)this, LSM303AGR_ACC_OUT_ADC3_L, &temp_low) == MEMS_ERROR)
         return LSM303AGR_ACC_STATUS_ERROR;
 
-    temp  = (temp << 8) + temp_low;
+    temp = (temp << 8) + temp_low;
 
     *temperature = (((int16_t)temp / 256.0f) + 25.0f);
 
     return LSM303AGR_ACC_STATUS_OK;
 }
 
-/**
- * @brief Read accelerometer data from register
- * @param reg register address
- * @param data register data
- * @retval LSM303AGR_ACC_STATUS_OK in case of success
- * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
- */
-LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadReg( uint8_t reg, uint8_t *data )
+//calculate lsb depending on fullscale
+int GetThresholdLSB(float fullScale) 
 {
+    switch ((int)fullScale)
+    {
+    case  2: return 16;  // 1 LSb = 16 mg @ FS = 2 g
+    case  4: return 32;  // 1 LSb = 32 mg @ FS = 4 g
+    case  8: return 62;  // 1 LSb = 62 mg @ FS = 8 g
+    case 16: return 186; // 1 LSb = 186 mg @ FS = 16 g
+    default: return 16;  // default to 16 mg
+    }
+}
 
-  if ( LSM303AGR_ACC_ReadReg( (void *)this, reg, data ) == MEMS_ERROR )
-  {
-    return LSM303AGR_ACC_STATUS_ERROR;
-  }
-
-  return LSM303AGR_ACC_STATUS_OK;
+//calculate lsb depending on odr
+int GetDurationLSB(float odr)
+{
+    return (int)(1000.0f / odr);
 }
 
 /**
- * @brief Write accelerometer data to register
- * @param reg register address
- * @param data register data
+ * @brief Accelerometer activity/inactivity function threshold
+ * @param threshold activity threshold value in mg
+ * @param fullScale set threshold scaled according to fullScale, if auto (=0), fullScale is read from the device
  * @retval LSM303AGR_ACC_STATUS_OK in case of success
  * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
  */
-LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::WriteReg( uint8_t reg, uint8_t data )
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetActivityThreshold(float threshold, float fullScale)
 {
+    //Read FS value if not specified
+    if (fullScale == 0 && GetFS(&fullScale) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
 
-  if ( LSM303AGR_ACC_WriteReg( (void *)this, reg, data ) == MEMS_ERROR )
-  {
-    return LSM303AGR_ACC_STATUS_ERROR;
-  }
+    // Sleep-to-wake, return-to-sleep activation threshold in low-power mode
+    // See Table 88. Act_THS_A description
+    
+    //Table 17:
+    //1 LSB = Full scale / 128 [mg]
+    //Fullscale value is in g
+    float lsb = (fullScale * 1000) / 128.0f;
 
-  return LSM303AGR_ACC_STATUS_OK;
+    uint8_t threshold_regvalue = (uint8_t)(threshold / lsb);
+    
+    return WriteReg(LSM303AGR_ACC_ACT_THS, threshold_regvalue);
 }
+
+/**
+ * @brief Accelerometer activity/inactivity function event duration
+ * @param duration minimum event duration value in ms
+ * @param odr set duration scaled according to odr, if auto (=0), odr is read from the device
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetActivityDuration(int duration, float odr)
+{
+    //Read FS value if not specified
+    if (odr == 0 && GetODR(&odr) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    int lsb = 8 * GetDurationLSB(odr);
+
+    uint8_t duration_regvalue = (uint8_t)(duration / lsb);
+
+    return WriteReg(LSM303AGR_ACC_ACT_DURATION, duration_regvalue);
+}
+
+/**
+ * @brief Enable activity detection interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableActivityInterrupt(void)
+{
+    if (LSM303AGR_ACC_W_P2_ACT((void*)this, LSM303AGR_ACC_P2_ACT_ENABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Disable activity detection interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableActivityInterrupt(void)
+{
+    if (LSM303AGR_ACC_W_P2_ACT((void*)this, LSM303AGR_ACC_P2_ACT_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+//Gets the reason for the interrupt
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterruptSource(uint8_t interruptReg, LSM303AGR_ACC_InterruptReason* reason)
+{
+    uint8_t data;
+    if (LSM303AGR_ACC_ReadReg((void*)this, interruptReg, &data) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (reason != nullptr)
+        *reason = (LSM303AGR_ACC_InterruptReason)data;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Gets the source for Interrupt 1. Reading this clears the interrupt.
+ * @param reason Gets the reason for what triggered the interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterrupt1(LSM303AGR_ACC_InterruptReason* reason)
+{
+    return ReadInterruptSource(LSM303AGR_ACC_INT1_SOURCE, reason);
+}
+
+/**
+ * @brief Gets the source for Interrupt 2. Reading this clears the interrupt.
+ * @param reason Gets the reason for what triggered the interrupt
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadInterrupt2(LSM303AGR_ACC_InterruptReason* reason)
+{
+    return ReadInterruptSource(LSM303AGR_ACC_INT2_SOURCE, reason);
+}
+
+/**
+ * @brief Sets up the High-Pass filter for interrupts and 
+ * @param interrupt 1 for Interrupt 1, 2 for Interrupt 2
+ * @param enable true to enable interrupt, false to disable
+ * @param filterData true to have HPF filter data, false to disable
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetHighPassFilter(int interrupt, bool enable, bool filterData)
+{
+    if ((interrupt == 0 || interrupt == 1) && LSM303AGR_ACC_W_hpf_aoi_en_int1(this, enable ? LSM303AGR_ACC_HPIS1_ENABLED : LSM303AGR_ACC_HPIS1_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if ((interrupt == 0 || interrupt == 2) && LSM303AGR_ACC_W_hpf_aoi_en_int2(this, enable ? LSM303AGR_ACC_HPIS2_ENABLED : LSM303AGR_ACC_HPIS2_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    if (LSM303AGR_ACC_W_Data_Filter(this, filterData ? LSM303AGR_ACC_FDS_ENABLED : LSM303AGR_ACC_FDS_BYPASSED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Enables interrupts of the specified types
+ * @param kind flag to specify one or more multiple interrupt types
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableInterrupt(LSM303AGR_ACC_InterruptKind kind)
+{
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_CTRL_REG3, &value) != LSM303AGR_ACC_STATUS_OK)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    value |= kind;
+    return WriteReg(LSM303AGR_ACC_CTRL_REG3, value);
+}
+
+/**
+ * @brief Disables interrupts of the specified types
+ * @param kind flag to specify one or more multiple interrupt types
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableInterrupt(LSM303AGR_ACC_InterruptKind kind)
+{
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_CTRL_REG3, &value) != LSM303AGR_ACC_STATUS_OK)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    value &= ~kind;
+    return WriteReg(LSM303AGR_ACC_CTRL_REG3, value);
+}
+
+/**
+ * @brief make the accelerometer read a reference (dummy read)
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::ReadReference(void)
+{
+    uint8_t data;
+    //This is a dummy read
+    return ReadReg(LSM303AGR_ACC_REFERENCE, &data); 
+}
+
+
+/**
+ * @brief Accelerometer interrupt threshold
+ * @param interrupt set 1 for INT1, 2 for INT2
+ * @param threshold activity threshold value in mg
+ * @param fullScale set threshold scaled according to fullScale, if auto (=0), fullScale is read from the device
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetInterruptThreshold(int interrupt, float threshold, float fullScale)
+{
+    //Read FS value if not specified
+    if (fullScale == 0 && GetFS(&fullScale) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    // See Table 63. INT1_THS_A description
+    //Fullscale value is in g
+    //GetThresholdLSB is in mg
+    float lsb = GetThresholdLSB(fullScale);
+
+    uint8_t threshold_regvalue = (uint8_t)(ceil(threshold / lsb));
+
+    return WriteReg(interrupt == 2 ? LSM303AGR_ACC_INT2_THS : LSM303AGR_ACC_INT1_THS, threshold_regvalue);
+}
+
+/**
+ * @brief Accelerometer Event duration for interrupt cause
+ * @param duration minimum event duration value in ms
+ * @param odr set duration scaled according to odr, if auto (=0), odr is read from the device
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetInterruptDuration(int interrupt, int duration, float odr)
+{
+    //Read FS value if not specified
+    if (odr == 0 && GetODR(&odr) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    int lsb = GetDurationLSB(odr);
+
+    uint8_t duration_regvalue = (uint8_t)(duration / lsb);
+    return WriteReg(LSM303AGR_ACC_ACT_DURATION, duration_regvalue);
+}
+
+/**
+ * @brief Enables accelerometer wake detection without using HPF on Interrupt 1
+ * @param threshold activity threshold value in mg
+ * @param fullScale set threshold scaled according to fullScale, if auto (=0), fullScale is read from the device
+ * @param latch latch the interrupt if true, the latch will have to be cleared by reading ReadInterrupt1()
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableWakeUpDetection(float threshold, float fullscale, bool latch)
+{
+    // Example flow:
+    // 1 Write A7h into CTRL_REG1_A // Turn on the sensor and enable X, Y, and Z
+    // 2 Write 00h into CTRL_REG2_A // High-pass filter disabled
+    // 3 Write 40h into CTRL_REG3_A // Interrupt driven to INT1 pad
+    // 4 Write 00h into CTRL_REG4_A // FS = 2 g
+    // 5 Write 08h into CTRL_REG5_A // Interrupt latched
+    // 6 Write10h  into INT1_THS_A // Threshold = 250 mg
+    // 7 Write 00h into INT1_DURATION_A // Duration = 0
+    // 8 Write 0Ah into INT1_CFG_A // Enable XH and YH interrupt generation
+
+    //1. Enable X Y Z   
+    SetAxes(LSM303AGR_ACC_AXIS_ALL);    
+
+    //2. Disable HPF
+    if (WriteReg(LSM303AGR_ACC_CTRL_REG2, 0x00) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    //3. Interrupt driven to INT1 pad
+    if(EnableInterrupt(LSM303AGR_ACC_INT1_AOI1) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    //4. Set FS
+    if(SetFS(fullscale) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;    
+
+    //5. Latch
+    if(LSM303AGR_ACC_W_LatchInterrupt_on_INT1((void*)this, latch ? LSM303AGR_ACC_LIR_INT1_ENABLED : LSM303AGR_ACC_LIR_INT1_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    //6. Set Interrupt Threshold
+    if(SetInterruptThreshold(1, threshold, fullscale) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;    
+
+    //7. Set Interrupt Duration
+    if(SetInterruptDuration(1, 0, 100) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+    //8. Set InterrupT CFG
+    if(WriteReg(LSM303AGR_ACC_INT1_CFG, 0x0A) == LSM303AGR_ACC_STATUS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+
+/**
+ * @brief Set power mode
+ * @param mode specify either low power mode or high resolution mode
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetPowerMode(LSM303AGR_ACC_PowerMode mode)
+{
+    if(LSM303AGR_ACC_W_LOWPWR_EN((void*)this, mode == LSM303AGR_ACC_MODE_LOW_POWER ? LSM303AGR_ACC_LPEN_ENABLED : LSM303AGR_ACC_LPEN_DISABLED) == MEMS_ERROR)
+        return LSM303AGR_ACC_STATUS_ERROR;
+
+    return LSM303AGR_ACC_STATUS_OK;
+}
+
+/**
+ * @brief Set the state of all three axes
+ * @param axes specify one or more axes to enable or disable
+ * @retval LSM303AGR_ACC_STATUS_OK in case of success
+ * @retval LSM303AGR_ACC_STATUS_ERROR in case of failure
+ */
+LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::SetAxes(LSM303AGR_ACC_Axes axes)
+{
+    uint8_t value;
+    if (ReadReg(LSM303AGR_ACC_CTRL_REG1, &value) != LSM303AGR_ACC_STATUS_OK)
+        return LSM303AGR_ACC_STATUS_ERROR;
+    
+    value &= ~(0b111);
+    value |= axes;
+    return WriteReg(LSM303AGR_ACC_CTRL_REG1, value);
+}
+
 
 uint8_t LSM303AGR_ACC_IO_Write( void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite )
 {

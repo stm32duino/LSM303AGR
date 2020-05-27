@@ -150,8 +150,10 @@ mems_status_t LSM303AGR_ACC_WriteReg( void *handle, u8_t Reg, u8_t Data );
 #define LSM303AGR_ACC_CLICK_SRC  	0X39
 #define LSM303AGR_ACC_CLICK_THS  	0X3A
 #define LSM303AGR_ACC_TIME_LIMIT  	0X3B
-#define LSM303AGR_ACC_TIME_LATENCY  	0X3C
+#define LSM303AGR_ACC_TIME_LATENCY  0X3C
 #define LSM303AGR_ACC_TIME_WINDOW  	0X3D
+#define LSM303AGR_ACC_ACT_THS       0X3E
+#define LSM303AGR_ACC_ACT_DURATION  0X3F
 
 /*******************************************************************************
 * Register      : STATUS_REG_AUX
@@ -281,8 +283,8 @@ mems_status_t LSM303AGR_ACC_R_int_counter(void *handle, u8_t *value);
 * Bit Group Name: WHO_AM_I
 * Permission    : RO
 *******************************************************************************/
-#define  	LSM303AGR_ACC_WHO_AM_I_MASK  	0xFF
-#define  	LSM303AGR_ACC_WHO_AM_I_POSITION  	0
+    #define  	LSM303AGR_ACC_WHO_AM_I_MASK  	0xFF
+    #define  	LSM303AGR_ACC_WHO_AM_I_POSITION  	0
 mems_status_t LSM303AGR_ACC_R_WHO_AM_I(void *handle, u8_t *value);
 
 /*******************************************************************************
@@ -1342,6 +1344,8 @@ mems_status_t  LSM303AGR_ACC_W_Int1_Threshold(void *handle, u8_t newValue);
 mems_status_t LSM303AGR_ACC_R_Int1_Threshold(void *handle, u8_t *value);
 mems_status_t  LSM303AGR_ACC_W_Int2_Threshold(void *handle, u8_t newValue);
 mems_status_t LSM303AGR_ACC_R_Int2_Threshold(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_Act_Threshold(void* handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_Act_Threshold(void* handle, u8_t* value);
 
 /*******************************************************************************
 * Register      : INT1_DURATION/INT2_DURATION
@@ -1355,6 +1359,8 @@ mems_status_t  LSM303AGR_ACC_W_Int1_Duration(void *handle, u8_t newValue);
 mems_status_t LSM303AGR_ACC_R_Int1_Duration(void *handle, u8_t *value);
 mems_status_t  LSM303AGR_ACC_W_Int2_Duration(void *handle, u8_t newValue);
 mems_status_t LSM303AGR_ACC_R_Int2_Duration(void *handle, u8_t *value);
+mems_status_t  LSM303AGR_ACC_W_Act_Duration(void* handle, u8_t newValue);
+mems_status_t LSM303AGR_ACC_R_Act_Duration(void* handle, u8_t* value);
 
 /*******************************************************************************
 * Register      : CLICK_CFG

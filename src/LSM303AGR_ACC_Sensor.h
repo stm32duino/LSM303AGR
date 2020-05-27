@@ -45,7 +45,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "Wire.h"
-#include "LSM303AGR_ACC_Driver.h"
+
 
 /* Defines -------------------------------------------------------------------*/
 #define LSM303AGR_ACC_SENSITIVITY_FOR_FS_2G_NORMAL_MODE               3.900f  /**< Sensitivity value for 2 g full scale and normal mode [mg/LSB] */
@@ -71,6 +71,46 @@ typedef enum
   LSM303AGR_ACC_STATUS_NOT_IMPLEMENTED
 } LSM303AGR_ACC_StatusTypeDef;
 
+typedef enum 
+{
+    LSM303AGR_ACC_INT1_ALL              = 0xFF,
+    LSM303AGR_ACC_INT1_CLICK            = 0x80,
+    LSM303AGR_ACC_INT1_AOI1             = 0x40,
+    LSM303AGR_ACC_INT1_AOI2             = 0x20,
+    LSM303AGR_ACC_INT1_DRDY1            = 0x10,
+    LSM303AGR_ACC_INT1_DRDY2            = 0x08,
+    LSM303AGR_ACC_INT1_FIFO_WATERMARK   = 0x04,
+    LSM303AGR_ACC_INT1_FIFO_OVERRUN     = 0x02,
+    LSM303AGR_ACC_INT1_NONE             = 0x00,
+} LSM303AGR_ACC_InterruptKind;
+
+
+typedef enum
+{
+    LSM303AGR_ACC_INTERRUPT_ACTIVE = 0x40,
+    LSM303AGR_ACC_HIGH_Z = 0x20,
+    LSM303AGR_ACC_LOW_Z = 0x10,
+    LSM303AGR_ACC_HIGH_Y = 0x08,
+    LSM303AGR_ACC_LOW_Y = 0x04,
+    LSM303AGR_ACC_HIGH_X = 0x02,
+    LSM303AGR_ACC_LOW_X = 0x01,
+    LSM303AGR_ACC_NO_INTERRUPT = 0x00,
+} LSM303AGR_ACC_InterruptReason;
+
+typedef enum
+{
+    LSM303AGR_ACC_MODE_LOW_POWER = 1,
+    LSM303AGR_ACC_MODE_HIGH_RES  = 0,
+} LSM303AGR_ACC_PowerMode;
+
+typedef enum
+{
+    LSM303AGR_ACC_AXIS_X = 0x01,
+    LSM303AGR_ACC_AXIS_Y = 0x02,
+    LSM303AGR_ACC_AXIS_Z = 0x04,
+    LSM303AGR_ACC_AXIS_ALL = LSM303AGR_ACC_AXIS_X | LSM303AGR_ACC_AXIS_Y | LSM303AGR_ACC_AXIS_Z,
+    LSM303AGR_ACC_AXIS_NONE = 0
+} LSM303AGR_ACC_Axes;
 
 /* Class Declaration ---------------------------------------------------------*/
 
@@ -81,27 +121,55 @@ typedef enum
 class LSM303AGR_ACC_Sensor
 {
   public:
-    LSM303AGR_ACC_Sensor                                 (TwoWire *i2c);
-    LSM303AGR_ACC_Sensor                                 (TwoWire *i2c, uint8_t address);
-    LSM303AGR_ACC_StatusTypeDef Enable                   (void);
-    LSM303AGR_ACC_StatusTypeDef Disable                  (void);
-    LSM303AGR_ACC_StatusTypeDef ReadID                   (uint8_t *p_id);
-    LSM303AGR_ACC_StatusTypeDef GetAxes                  (int32_t *pData);
-    LSM303AGR_ACC_StatusTypeDef GetSensitivity           (float *pfData);
-    LSM303AGR_ACC_StatusTypeDef GetAxesRaw               (int16_t *pData);
-    LSM303AGR_ACC_StatusTypeDef GetODR                   (float *odr);
-    LSM303AGR_ACC_StatusTypeDef SetODR                   (float odr);
-    LSM303AGR_ACC_StatusTypeDef GetFS                    (float *fullScale);
-    LSM303AGR_ACC_StatusTypeDef SetFS                    (float fullScale);
-    LSM303AGR_ACC_StatusTypeDef EnableSelfTest           (uint8_t self_test = 0);
-    LSM303AGR_ACC_StatusTypeDef DisableSelfTest          (void);
-    LSM303AGR_ACC_StatusTypeDef EnableTemperatureSensor  (void);
-    LSM303AGR_ACC_StatusTypeDef DisableTemperatureSensor (void);
-    LSM303AGR_ACC_StatusTypeDef GetTemperature           (float* temperature);
-    LSM303AGR_ACC_StatusTypeDef ReadReg                  (uint8_t reg, uint8_t *data);
-    LSM303AGR_ACC_StatusTypeDef WriteReg                 (uint8_t reg, uint8_t data);
-	
-    /**
+    LSM303AGR_ACC_Sensor                        (TwoWire *i2c);
+    LSM303AGR_ACC_Sensor                        (TwoWire *i2c, uint8_t address);
+    LSM303AGR_ACC_StatusTypeDef Init            (void);
+    LSM303AGR_ACC_StatusTypeDef Enable          (void);
+    LSM303AGR_ACC_StatusTypeDef Disable         (void);
+    LSM303AGR_ACC_StatusTypeDef ReadID          (uint8_t *p_id);
+    
+    LSM303AGR_ACC_StatusTypeDef GetAxes         (int32_t *pData);
+    LSM303AGR_ACC_StatusTypeDef GetSensitivity  (float *pfData);
+	LSM303AGR_ACC_StatusTypeDef GetAxesRaw      (int16_t *pData);
+    LSM303AGR_ACC_StatusTypeDef IsDataAvailable (bool* available, LSM303AGR_ACC_Axes axes = LSM303AGR_ACC_AXIS_ALL);
+
+    LSM303AGR_ACC_StatusTypeDef GetODR          (float *odr);
+	LSM303AGR_ACC_StatusTypeDef SetODR          (float odr);
+
+	LSM303AGR_ACC_StatusTypeDef GetFS           (float *fullScale);
+	LSM303AGR_ACC_StatusTypeDef SetFS           (float fullScale);
+
+	LSM303AGR_ACC_StatusTypeDef ReadReg         (uint8_t reg, uint8_t *data);
+	LSM303AGR_ACC_StatusTypeDef WriteReg        (uint8_t reg, uint8_t data);
+
+    LSM303AGR_ACC_StatusTypeDef Reboot          (void);
+    LSM303AGR_ACC_StatusTypeDef EnableSelfTest  (uint8_t self_test = 0);
+    LSM303AGR_ACC_StatusTypeDef DisableSelfTest (void);
+
+    LSM303AGR_ACC_StatusTypeDef EnableTemperatureSensor     (void);
+    LSM303AGR_ACC_StatusTypeDef DisableTemperatureSensor    (void);
+    LSM303AGR_ACC_StatusTypeDef GetTemperature              (float* temperature);
+    
+    LSM303AGR_ACC_StatusTypeDef SetActivityThreshold        (float threshold, float fullScale = 0);
+    LSM303AGR_ACC_StatusTypeDef SetActivityDuration         (int duration, float odr = 0);
+    LSM303AGR_ACC_StatusTypeDef EnableActivityInterrupt     (void);
+    LSM303AGR_ACC_StatusTypeDef DisableActivityInterrupt    (void);
+    LSM303AGR_ACC_StatusTypeDef ReadInterrupt1             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
+    LSM303AGR_ACC_StatusTypeDef ReadInterrupt2             (LSM303AGR_ACC_InterruptReason* reason = nullptr);
+
+    LSM303AGR_ACC_StatusTypeDef SetHighPassFilter       (int interrupt, bool enable, bool filterData);
+    LSM303AGR_ACC_StatusTypeDef EnableInterrupt         (LSM303AGR_ACC_InterruptKind kind);
+    LSM303AGR_ACC_StatusTypeDef DisableInterrupt        (LSM303AGR_ACC_InterruptKind kind);
+    
+    LSM303AGR_ACC_StatusTypeDef ReadReference           (void);
+    LSM303AGR_ACC_StatusTypeDef SetInterruptThreshold   (int interrupt, float threshold, float fullScale = 0);
+    LSM303AGR_ACC_StatusTypeDef SetInterruptDuration    (int interrupt, int duration, float odr = 0);
+    LSM303AGR_ACC_StatusTypeDef EnableWakeUpDetection   (float threshold, float fullscale = 0, bool latch = false);
+
+    LSM303AGR_ACC_StatusTypeDef SetPowerMode            (LSM303AGR_ACC_PowerMode mode);
+    LSM303AGR_ACC_StatusTypeDef SetAxes                 (LSM303AGR_ACC_Axes axes);
+
+	/**
      * @brief Utility function to read data.
      * @param  pBuffer: pointer to data to be read.
      * @param  RegisterAddr: specifies internal address register to be read.
@@ -152,6 +220,7 @@ class LSM303AGR_ACC_Sensor
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_Normal_Mode( float *sensitivity );
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_LP_Mode( float *sensitivity );
     LSM303AGR_ACC_StatusTypeDef GetSensitivity_HR_Mode( float *sensitivity );
+    LSM303AGR_ACC_StatusTypeDef ReadInterruptSource(uint8_t reg, LSM303AGR_ACC_InterruptReason* reason);
 
     /* Helper classes. */
     TwoWire *dev_i2c;
