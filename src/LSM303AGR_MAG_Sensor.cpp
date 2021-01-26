@@ -52,68 +52,57 @@
 LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c) : dev_i2c(i2c)
 {
   address = LSM303AGR_MAG_I2C_ADDRESS;
+}
 
-  /* Operating mode selection - power down */
-  if ( LSM303AGR_MAG_W_MD( (void *)this, LSM303AGR_MAG_MD_IDLE1_MODE ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  /* Enable BDU */
-  if ( LSM303AGR_MAG_W_BDU( (void *)this, LSM303AGR_MAG_BDU_ENABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-  
-  if ( SetODR( 100.0f ) == LSM303AGR_MAG_STATUS_ERROR )
-  {
-    return;
-  }
-  
-  if ( SetFS( 50.0f ) == LSM303AGR_MAG_STATUS_ERROR )
-  {
-    return;
-  }
-
-  if ( LSM303AGR_MAG_W_ST( (void *)this, LSM303AGR_MAG_ST_DISABLED ) == MEMS_ERROR )
-  {
-    return;
-  }
-};
-
-/** Constructor
- * @param i2c object of an helper class which handles the I2C peripheral
- * @param address the address of the component's instance
+/**
+ * @brief  Configure the sensor in order to be used
+ * @retval 0 in case of success, an error code otherwise
  */
-LSM303AGR_MAG_Sensor::LSM303AGR_MAG_Sensor(TwoWire *i2c, uint8_t address) : dev_i2c(i2c), address(address)
+LSM303AGR_MAG_StatusTypeDef LSM303AGR_MAG_Sensor::begin(void)
 {
   /* Operating mode selection - power down */
   if ( LSM303AGR_MAG_W_MD( (void *)this, LSM303AGR_MAG_MD_IDLE1_MODE ) == MEMS_ERROR )
   {
-    return;
+    return LSM303AGR_MAG_STATUS_ERROR;
   }
   
   /* Enable BDU */
   if ( LSM303AGR_MAG_W_BDU( (void *)this, LSM303AGR_MAG_BDU_ENABLED ) == MEMS_ERROR )
   {
-    return;
+    return LSM303AGR_MAG_STATUS_ERROR;
   }
   
   if ( SetODR( 100.0f ) == LSM303AGR_MAG_STATUS_ERROR )
   {
-    return;
+    return LSM303AGR_MAG_STATUS_ERROR;
   }
   
   if ( SetFS( 50.0f ) == LSM303AGR_MAG_STATUS_ERROR )
   {
-    return;
+    return LSM303AGR_MAG_STATUS_ERROR;
   }
 
   if ( LSM303AGR_MAG_W_ST( (void *)this, LSM303AGR_MAG_ST_DISABLED ) == MEMS_ERROR )
   {
-    return;
+    return LSM303AGR_MAG_STATUS_ERROR;
   }
-};
+
+  return LSM303AGR_MAG_STATUS_OK;
+}
+
+/**
+ * @brief  Disable the sensor and relative resources
+ * @retval 0 in case of success, an error code otherwise
+ */
+LSM303AGR_MAG_StatusTypeDef LSM303AGR_MAG_Sensor::end(void)
+{
+  if(Disable() != LSM303AGR_MAG_STATUS_OK)
+  {
+    return LSM303AGR_MAG_STATUS_ERROR;
+  }
+
+  return LSM303AGR_MAG_STATUS_OK;
+}
 
 /**
  * @brief  Enable LSM303AGR magnetometer

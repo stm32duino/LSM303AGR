@@ -67,7 +67,8 @@ class LSM303AGR_MAG_Sensor
 {
   public:
     LSM303AGR_MAG_Sensor                       (TwoWire *i2c);
-    LSM303AGR_MAG_Sensor                       (TwoWire *i2c, uint8_t address);
+    LSM303AGR_MAG_StatusTypeDef begin          (void);
+    LSM303AGR_MAG_StatusTypeDef end            (void);
     LSM303AGR_MAG_StatusTypeDef Enable         (void);
     LSM303AGR_MAG_StatusTypeDef Disable        (void);
     LSM303AGR_MAG_StatusTypeDef ReadID         (uint8_t *p_id);

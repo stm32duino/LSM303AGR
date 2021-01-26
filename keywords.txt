@@ -13,6 +13,8 @@ LSM303AGR_MAG_Sensor	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
+begin	KEYWORD2
+end	KEYWORD2
 Enable	KEYWORD2
 Disable	KEYWORD2
 ReadID	KEYWORD2
