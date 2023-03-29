@@ -625,7 +625,7 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::EnableSelfTest(uint8_t self_te
  */
 LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::DisableSelfTest(void)
 {    
-    if (LSM303AGR_ACC_W_SelfTest(this, LSM303AGR_ACC_ST_DISABLED))
+    if (LSM303AGR_ACC_W_SelfTest((void*)this, LSM303AGR_ACC_ST_DISABLED) == MEMS_ERROR)
         return LSM303AGR_ACC_STATUS_ERROR;
 
     return LSM303AGR_ACC_STATUS_OK;
