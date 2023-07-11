@@ -414,9 +414,9 @@ LSM303AGR_ACC_StatusTypeDef LSM303AGR_ACC_Sensor::GetAxesRaw(int16_t *pData)
   }
   
   /* Format the data. */
-  pData[0] = ( ( ( ( ( int16_t )regValue[1] ) << 8 ) + ( int16_t )regValue[0] ) >> shift );
-  pData[1] = ( ( ( ( ( int16_t )regValue[3] ) << 8 ) + ( int16_t )regValue[2] ) >> shift );
-  pData[2] = ( ( ( ( ( int16_t )regValue[5] ) << 8 ) + ( int16_t )regValue[4] ) >> shift );
+  pData[0] = ( (int16_t)( ( ( ( int16_t )regValue[1] ) << 8 ) + ( int16_t )regValue[0] ) >> shift );
+  pData[1] = ( (int16_t)( ( ( ( int16_t )regValue[3] ) << 8 ) + ( int16_t )regValue[2] ) >> shift );
+  pData[2] = ( (int16_t)( ( ( ( int16_t )regValue[5] ) << 8 ) + ( int16_t )regValue[4] ) >> shift );
   
   return LSM303AGR_ACC_STATUS_OK;
 }
